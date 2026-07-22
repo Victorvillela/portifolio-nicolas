@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+/*
+  Design system — paleta ancorada no logotipo da NBM Consultoria:
+  azul marinho quase preto em três níveis, texto off-white frio,
+  azul gelo dessaturado como acento. O luxo vem de espaço negativo e
+  tipografia, não de cor. Nomes dos tokens mantidos (champagne/parchment/
+  bronze) para não tocar nas classes já usadas nos componentes — só os
+  valores mudaram, do dourado antigo para a família azul do logo.
+*/
+@theme inline {
+  /* Triad quase-preto derivado da matiz REAL da marca (extraída por
+     amostragem de pixel do nbmlogo.png, ~209°), preservando a mesma
+     saturação/luminosidade que a aproximação anterior tinha — mesma
+     leitura "quase preto", só a matiz corrigida pro tom real do logo. */
+  --color-ink-950: #070e14;
+  --color-ink-900: #0a1520;
+  --color-ink-800: #101e2c;
+  --color-fog: #f2f4f7;
+  --color-ash: #8c94a3;
+  --color-parchment: #c7dcf5;
+  --color-champagne: #8fb8e8;
+  --color-bronze: #1e3a6e;
+
+  /* Tema claro (HOME institucional, após a transição) — mesma família de
+     azuis do logo, polaridade invertida. bronze/champagne já servem de
+     CTA/acento (valores coincidem com o pedido do briefing), só o papel
+     de fundo/texto precisa de tokens novos. */
+  --color-paper: #ffffff;
+  --color-paper-soft: #f7f9fc;
+  --color-navy-text: #0a1220;
+  --color-navy-text-soft: #5a6678;
+  --color-card-border: #e4e9f0;
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout-expo: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-ink-950);
+  color: var(--color-fog);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: rgba(143, 184, 232,0.35);
+  color: var(--color-fog);
+}
+
+/* Grain global extremamente sutil (briefing: noise via overlay CSS, não post-processing) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 90;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  opacity: 0.032;
+  mix-blend-mode: overlay;
+}
+
+/* Headline com leitura de luz (Referência B): topo claro, base esmaecida */
+.text-luminous {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-fog) 30%,
+    rgba(242, 244, 247,0.45)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Halo radial discreto para fundos de seção */
+.bg-halo-champagne {
+  background-image: radial-gradient(
+    ellipse 50% 40% at 50% 100%,
+    rgba(143, 184, 232,0.08),
+    transparent 70%
+  );
+}
+
+/* Scrim do hero (Ato 01): navy translúcido sobre a imagem de fundo —
+   mais forte perto do headline (centro), esmaece nas bordas. */
+.hero-overlay {
+  background-color: rgba(7, 14, 20, 0.42);
+  background-image: radial-gradient(
+    ellipse 70% 60% at 50% 42%,
+    rgba(7, 14, 20, 0.66),
+    rgba(7, 14, 20, 0.18) 72%
+  );
+}
+
+/* Badge fixo do emblema no header (ref. Don Molinico): navy REAL do
+   logo (amostragem de pixel do nbmlogo.png, não o ink-950 do design
+   system) — o badge não muda com o tema, só o fundo ao redor dele muda. */
+.badge-navy {
+  background-color: #003465;
+}
+
+/* Borda 1px extremamente sutil */
+.hairline {
+  border: 1px solid rgba(242, 244, 247,0.08);
+}
+
+.hairline-t {
+  border-top: 1px solid rgba(242, 244, 247,0.08);
+}
+
+.hairline-b {
+  border-bottom: 1px solid rgba(242, 244, 247,0.08);
+}
+
+/* Bordas do tema claro (HOME institucional) */
+.hairline-light {
+  border: 1px solid var(--color-card-border);
+}
+
+.hairline-light-t {
+  border-top: 1px solid var(--color-card-border);
+}
+
+.hairline-light-b {
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+/* Sombra fria suave para cards no tema claro */
+.shadow-paper {
+  box-shadow: 0 1px 2px rgba(10, 18, 32, 0.03), 0 12px 32px rgba(10, 18, 32, 0.06);
+}
+
+/* Label institucional em small caps espaçadas */
+.eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+/* Variante clara do .eyebrow — precisa ser uma regra "crua" como a
+   original (não uma utility Tailwind) para vencer com segurança: regras
+   fora de @layer ficam fora do sistema de camadas do Tailwind e uma
+   utility não teria prioridade garantida sobre .eyebrow aqui. */
+.eyebrow-light {
+  color: var(--color-navy-text-soft);
+}
+
+/* Marquee de credibilidade — lento, contínuo */
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 48s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Pulso dos pontos da seção de tecnologia */
+@keyframes tech-pulse {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
