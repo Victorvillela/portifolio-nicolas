@@ -1,11 +1,11 @@
 /*
-  FAQ — perguntas frequentes (briefing).
+  FAQ — perguntas frequentes.
 
-  REGRA DE COMPLIANCE IMPORTANTE: os itens marcados com [TODO: ...] não
-  podem ser preenchidos com suposições — modelo de remuneração, valores
-  mínimos e políticas comerciais mudam o enquadramento regulatório da
-  empresa perante a CVM/XP e só podem vir do cliente. Deixar o
-  placeholder visível no código até a confirmação chegar.
+  Conteúdo integral fornecido pelo cliente (2026-07-25) — substituiu os
+  placeholders [TODO] de compliance que existiam aqui. Qualquer alteração
+  futura de texto deve vir do cliente, nunca de suposição (valores
+  mínimos, modelo de remuneração e políticas comerciais mudam o
+  enquadramento regulatório perante a CVM/XP).
 */
 
 export type FaqItem = {
@@ -17,25 +17,21 @@ export const faq: FaqItem[] = [
   {
     question: "Qual o patrimônio mínimo para atendimento?",
     answer:
-      "[TODO: confirmar faixa mínima real com o cliente antes de publicar]",
+      "Na NBM Consultoria, acreditamos que um bom planejamento financeiro deve ser acessível para quem busca crescimento patrimonial. Avaliamos cada caso de forma individual para oferecer uma estratégia adequada ao perfil, aos objetivos e ao momento financeiro de cada cliente.",
   },
   {
     question: "Preciso trocar de corretora ou banco?",
     answer:
-      "Não. A consultoria trabalha em cima da estrutura onde o seu patrimônio já está — o que passa a existir é uma camada de estratégia e acompanhamento sobre ele.",
-  },
-  {
-    question: "Como funciona a cobrança pela consultoria?",
-    answer:
-      "[TODO: confirmar modelo de remuneração real — fee-based, comissão ou híbrido — com o cliente antes de publicar. NÃO assumir fee-based por padrão.]",
+      "Não necessariamente. Analisamos sua estrutura atual e, sempre que possível, aproveitamos os investimentos que você já possui. Caso exista uma alternativa mais eficiente, apresentamos as opções e a decisão é sempre do cliente.",
   },
   {
     question: "A NBM vende produtos financeiros próprios?",
-    answer: "[TODO: confirmar resposta com o cliente antes de publicar]",
+    answer:
+      "Não. A NBM atua de forma independente, buscando as melhores soluções disponíveis no mercado para cada cliente. Nosso compromisso é recomendar estratégias alinhadas aos seus objetivos, e não direcionar investimentos por interesse comercial.",
   },
   {
     question: "Como funciona o acompanhamento depois que me torno cliente?",
     answer:
-      "Monitoramento regular das suas finanças, com ajuste das recomendações conforme suas circunstâncias e objetivos mudam ao longo do tempo.",
+      "O relacionamento não termina após a contratação. Realizamos acompanhamento contínuo da carteira, revisões periódicas da estratégia e ajustes sempre que houver mudanças no mercado ou nos objetivos do cliente, garantindo que seu patrimônio permaneça alinhado ao seu planejamento financeiro.",
   },
 ];

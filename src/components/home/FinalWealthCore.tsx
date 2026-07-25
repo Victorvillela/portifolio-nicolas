@@ -18,7 +18,7 @@ export function FinalWealthCore() {
           Agora ele precisa de direção.
         </p>
         <div className="mt-10">
-          <MagneticButton href={`mailto:${site.email}`}>
+          <MagneticButton href={site.scheduleUrl}>
             {ctaLabels.final}
           </MagneticButton>
         </div>

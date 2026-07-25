@@ -9,7 +9,14 @@ import { ctaLabels, site } from "@/data/site";
 */
 export function InstitutionalHero() {
   return (
-    <section id="home" className="bg-paper relative overflow-hidden">
+    // data-theme-boundary: primeira seção clara — o PremiumHeader mede
+    // este ponto para ligar a barra navy quando flutua sobre conteúdo
+    // claro (papel herdado da antiga HomeTransition, removida).
+    <section
+      id="home"
+      data-theme-boundary
+      className="bg-pale-gradient relative overflow-hidden"
+    >
       {/* pt-40 (mobile) > pb-28: dá espaço extra pro heading limpar o
           header fixo (sem scrim) antes de passar por trás dele ao rolar —
           ver observação de mobile no PremiumHeader. Desktop mantém o

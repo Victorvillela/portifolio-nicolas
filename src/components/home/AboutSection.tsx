@@ -40,9 +40,10 @@ export function AboutSection() {
             aria-hidden
             className="pointer-events-none absolute inset-0 rounded-2xl"
             style={{
-              boxShadow: "inset 0 0 0 1px rgba(10,18,32,0.08)",
+              boxShadow:
+                "inset 0 0 0 1px color-mix(in srgb, var(--color-bg-primary) 8%, transparent)",
               background:
-                "linear-gradient(to top, rgba(10,18,32,0.35), transparent 45%)",
+                "linear-gradient(to top, color-mix(in srgb, var(--color-bg-primary) 35%, transparent), transparent 45%)",
             }}
           />
         </div>

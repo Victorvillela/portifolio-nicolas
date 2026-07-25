@@ -1,7 +1,5 @@
 /*
   Métricas exibidas na HOME institucional.
-  TODO: substituir por métricas reais e verificáveis — os valores abaixo são
-  placeholders visuais e NÃO devem ir ao ar como se fossem números reais.
 */
 
 export type Metric = {
@@ -11,8 +9,7 @@ export type Metric = {
 };
 
 export const metrics: Metric[] = [
-  { value: "XX+", label: "Clientes atendidos", isPlaceholder: true },
-  { value: "R$ XXM", label: "Patrimônio analisado", isPlaceholder: true },
-  { value: "XX", label: "Estratégias estruturadas", isPlaceholder: true },
-  { value: "XX anos", label: "Experiência", isPlaceholder: true },
+  { value: "+200", label: "Clientes atendidos", isPlaceholder: false },
+  { value: "R$ 70M", label: "Patrimônio sob gestão", isPlaceholder: false },
+  { value: "5 anos", label: "Experiência de mercado", isPlaceholder: false },
 ];

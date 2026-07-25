@@ -75,7 +75,7 @@ export function CasesGrid() {
                 className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
                 style={{
                   background:
-                    "radial-gradient(600px circle at 20% 0%, rgba(143,184,232,0.06), transparent 60%)",
+                    "radial-gradient(600px circle at 20% 0%, color-mix(in srgb, var(--color-blue-light) 6%, transparent), transparent 60%)",
                 }}
               />
             </article>

@@ -43,7 +43,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#070E14",
+  // espelha --color-bg-primary (globals.css); metadata do Next não
+  // resolve var(), então este é o único hex que precisa ser literal
+  themeColor: "#0A1A2F",
   colorScheme: "dark",
 };
 

@@ -18,7 +18,7 @@ export function FAQSection() {
     <section
       id="faq"
       aria-label="Perguntas frequentes"
-      className="hairline-light-t bg-paper py-28 md:py-40"
+      className="bg-pale-gradient hairline-light-t py-28 md:py-40"
     >
       <Container className="max-w-3xl">
         <SectionLabel className="eyebrow-light">Perguntas frequentes</SectionLabel>
@@ -33,19 +33,20 @@ export function FAQSection() {
           {faq.map((item, i) => {
             const open = openIndex === i;
             return (
-              <li key={item.question} className="hairline-light-t">
+              <li key={item.question} className="border-t border-blue/15">
                 <button
                   type="button"
                   aria-expanded={open}
                   onClick={() => setOpenIndex(open ? null : i)}
                   className="flex w-full items-center justify-between gap-6 py-6 text-left"
                 >
-                  <span className="text-lg font-medium text-navy-text md:text-xl">
+                  <span className="text-lg font-semibold text-navy-text md:text-xl">
                     {item.question}
                   </span>
+                  {/* + que vira × ao abrir — azul da marca */}
                   <span
                     aria-hidden
-                    className={`relative h-4 w-4 shrink-0 text-navy-text-soft transition-transform duration-500 ${open ? "rotate-45" : ""}`}
+                    className={`relative h-4 w-4 shrink-0 text-blue transition-transform duration-500 ${open ? "rotate-45" : ""}`}
                   >
                     <span className="absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 -translate-y-1/2 bg-current" />
                     <span className="absolute left-1/2 top-1/2 h-4 w-px -translate-x-1/2 -translate-y-1/2 bg-current" />
@@ -55,7 +56,7 @@ export function FAQSection() {
                   className={`grid transition-all duration-500 ease-out ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                 >
                   <div className="overflow-hidden">
-                    <p className="max-w-xl pb-6 text-sm leading-relaxed text-navy-text-soft">
+                    <p className="max-w-xl pb-6 text-sm leading-[1.7] text-navy-text/80">
                       {item.answer}
                     </p>
                   </div>

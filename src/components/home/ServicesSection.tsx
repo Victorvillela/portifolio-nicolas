@@ -9,7 +9,7 @@ import { site } from "@/data/site";
 */
 export function ServicesSection() {
   return (
-    <section id="servicos" className="hairline-light-t bg-paper-soft py-28 md:py-40">
+    <section id="servicos" className="bg-pale-gradient hairline-light-t py-28 md:py-40">
       <Container>
         <SectionLabel className="eyebrow-light">Serviços</SectionLabel>
         <h2 className="mt-8 max-w-3xl text-4xl font-medium leading-tight tracking-tight text-navy-text md:text-6xl">
@@ -36,6 +36,8 @@ export function ServicesSection() {
               </p>
               <a
                 href={site.scheduleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="eyebrow eyebrow-light mt-8 inline-flex items-center gap-3 transition-colors duration-300 group-hover:text-navy-text"
               >
                 Conversar sobre

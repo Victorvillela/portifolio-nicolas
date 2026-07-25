@@ -3,27 +3,34 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { headerNavLeft, headerNavRight, site, ctaLabels } from "@/data/site";
+import { headerNav, site, ctaLabels } from "@/data/site";
 import { PillButton } from "@/components/ui/PillButton";
 
 /*
-  Header flutuante enxuto (referências: donmolinico.es — emblema vertical
-  "furando" a faixa do header e descendo sobre o hero, sem borda/scrim
-  separando header de conteúdo; vrwealth.com.br — menu curto, Método/
-  Sobre/FAQ + CTA). Três colunas: grupo esquerdo (Início · Sobre), badge
-  central (arquivo real do cliente, íntegro, nunca recortado — só o
-  tamanho é ajustado via CSS), grupo direito (Serviços · FAQ) + CTA.
-  Itens de menu soltos direto sobre o fundo da página (sem barra
-  fechada). Só a compactação de padding ao rolar é controlada por rAF
-  via ref, sem setState por pixel de scroll.
+  Header flutuante em TRÊS ZONAS dentro de um container centralizado
+  (max-w-7xl = 1280px, padding lateral de 32px):
+
+      [emblema]      [Início Sobre Serviços FAQ]      [CTA]
+       flex-1                 centro                  flex-1
+
+  As zonas externas usam flex-1, então o grupo de links cai no centro
+  óptico real do container em qualquer largura. A versão anterior
+  quebrava os links em dois grupos com justify-self start/end e uma
+  coluna central vazia — era isso que abria o vão em telas largas.
+
+  O emblema é posicionado em absolute (fora do fluxo) para poder animar
+  entre dois estados sem deslocar as demais zonas:
+    - hero  → grande e centralizado, links ocultos (momento de marca)
+    - resto → retraído à esquerda, os 4 links revelados no centro
+  A fronteira entre os dois é a mesma que troca o tema do header
+  ([data-theme-boundary], ver InstitutionalHero), então logo, links e
+  fundo navy mudam todos no mesmo ponto.
 */
 export function PremiumHeader() {
   const headerRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  // badge grande/vertical (true, estado inicial) ↔ badge retraído no
-  // canto esquerdo + menu revelado (false). Controla o clique nas linhas
-  // do emblema; ver efeito abaixo pro retraimento automático no scroll.
   const [expanded, setExpanded] = useState(true);
+  const [activeHref, setActiveHref] = useState<string>(headerNav[0].href);
 
   useEffect(() => {
     const el = headerRef.current;
@@ -32,14 +39,15 @@ export function PremiumHeader() {
     let raf = 0;
     let lastScrolled: boolean | null = null;
     let lastTheme: string | null = null;
-    // posição onde a HOME clara começa (#home, ver InstitutionalHero) —
+    // posição onde o conteúdo claro começa ([data-theme-boundary], ver
+    // InstitutionalHero — primeira seção clara após o hero navy) —
     // medida uma vez e no resize, nunca por frame de scroll
     let lightBoundary = Infinity;
 
     const measureBoundary = () => {
-      const home = document.getElementById("home");
-      lightBoundary = home
-        ? home.getBoundingClientRect().top + window.scrollY
+      const boundary = document.querySelector("[data-theme-boundary]");
+      lightBoundary = boundary
+        ? boundary.getBoundingClientRect().top + window.scrollY
         : Infinity;
     };
 
@@ -49,17 +57,14 @@ export function PremiumHeader() {
       if (scrolled !== lastScrolled) {
         lastScrolled = scrolled;
         el.dataset.scrolled = String(scrolled);
-        // Retraimento automático do badge ao iniciar o scroll (padrão
-        // pedido no briefing, item 5). Pra deixar o retraimento só por
-        // clique manual, remova este `if` — o resto do fluxo (clique nas
-        // linhas / clique no logo retraído) continua funcionando igual.
-        if (scrolled) setExpanded(false);
       }
       // troca um pouco antes da fronteira (header já flutua sobre a seção)
-      const theme = window.scrollY + 72 >= lightBoundary ? "light" : "dark";
+      const pastHero = window.scrollY + 72 >= lightBoundary;
+      const theme = pastHero ? "light" : "dark";
       if (theme !== lastTheme) {
         lastTheme = theme;
         el.dataset.theme = theme;
+        setExpanded(!pastHero);
       }
     };
 
@@ -77,8 +82,7 @@ export function PremiumHeader() {
     window.addEventListener("resize", onResize);
     // Remede depois que a página termina de carregar (fontes com
     // FOUT/FOIT, vídeos, imagens) — tudo isso pode deslocar a posição
-    // real de #home em relação ao valor medido no mount, deixando o
-    // header preso em data-theme="dark" mesmo já sobre a home clara.
+    // real do boundary em relação ao valor medido no mount.
     window.addEventListener("load", onResize);
     // Fallback pra qualquer outro deslocamento de altura depois do mount
     // (ex.: ScrollTrigger recalculando pin-spacers) sem remedir por
@@ -94,129 +98,159 @@ export function PremiumHeader() {
     };
   }, []);
 
-  const mobileNav = [...headerNavLeft, ...headerNavRight];
+  /*
+    Link ativo: as seções do menu são âncoras da mesma página, então o
+    "estado da página atual" é a seção em tela. A faixa de detecção fica
+    logo abaixo do header (-80px no topo) e ignora os 55% de baixo, para
+    a troca acontecer quando a seção realmente assume a tela.
+  */
+  useEffect(() => {
+    const sections = headerNav
+      .map((item) => document.querySelector(item.href))
+      .filter((el): el is Element => el !== null);
+    if (!sections.length) return;
+
+    const visible = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const href = `#${entry.target.id}`;
+          if (entry.isIntersecting) visible.add(href);
+          else visible.delete(href);
+        }
+        const next = headerNav.find((item) => visible.has(item.href));
+        if (next) setActiveHref(next.href);
+      },
+      { rootMargin: "-80px 0px -55% 0px" },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   const navLinkClass =
-    "text-[0.66rem] font-medium uppercase tracking-[0.24em] text-fog/80 transition-colors duration-300 hover:text-fog group-data-[theme=light]/header:text-navy-text-soft group-data-[theme=light]/header:hover:text-navy-text";
+    "relative text-[0.66rem] font-medium uppercase tracking-[0.24em] transition-colors duration-300";
 
   return (
     <header
       ref={headerRef}
       data-scrolled="false"
       data-theme="dark"
-      className="group/header fixed inset-x-0 top-0 z-50 transition-all duration-500"
+      className="group/header fixed inset-x-0 top-0 z-50 transition-colors duration-500 data-[theme=light]:bg-navy/92 data-[theme=light]:shadow-[0_8px_24px_rgba(10,26,47,0.25)] data-[theme=light]:backdrop-blur-md"
     >
-      <div className="relative mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-6 py-4 transition-all duration-500 md:px-10 group-data-[scrolled=true]/header:py-3">
-        {/* badge do emblema — fora do fluxo do grid de propósito (não
-            afeta a altura da faixa). Estado inicial: grande/vertical,
-            topo alinhado ao centro da faixa, corpo descendo sobre o hero
-            (ref. Don Molinico); retrai sozinho pro canto esquerdo
-            (~36-40px, tamanho normal de logo) assim que o scroll começa —
-            sem ícone/botão de toggle manual, só o gatilho de scroll (ver
-            `update()` acima) e o clique no logo já retraído, que reabre.
-            Fundo navy real do próprio badge (badge-navy, amostrado do
-            nbmlogo.png) — sempre contrasta, em qualquer tema. Arquivo do
-            logo íntegro, nunca recortado/recolorido — só o container e o
-            tamanho de exibição da imagem mudam via CSS. */}
+      <div className="relative mx-auto flex h-16 max-w-7xl items-center px-8 md:h-20">
+        {/* EMBLEMA — absolute de propósito: anima centro↔esquerda sem
+            deslocar as zonas de navegação. Logo transparente, sem caixa
+            (ref. Verso). No hero desce um pouco sobre o vídeo. */}
         <div
-          className={`badge-navy absolute z-20 flex items-center justify-center overflow-hidden rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.2),0_14px_28px_rgba(0,0,0,0.22)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`absolute z-20 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             expanded
-              ? "left-1/2 top-7 h-[104px] w-14 -translate-x-1/2"
-              : "left-0 top-1/2 h-9 w-9 -translate-y-1/2 md:h-10 md:w-10"
+              ? "left-1/2 top-4 h-20 w-20 -translate-x-1/2 md:h-24 md:w-24"
+              : "left-8 top-1/2 h-9 w-9 -translate-y-1/2 md:h-10 md:w-10"
           }`}
         >
+          {/* clicar leva ao topo (#inicio) e o próprio scroll re-expande
+              o emblema — sem segundo dono do estado */}
           <Link
             href="#inicio"
             aria-label={site.brandMark}
-            onClick={() => setExpanded(true)}
             className="flex h-full w-full items-center justify-center transition-opacity hover:opacity-85"
           >
             <Image
-              src="/images/nbmlogo.png"
+              src="/images/nbmlogo-transparent.png"
               alt=""
               width={150}
               height={150}
               priority
-              className={`object-contain transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                expanded ? "h-12 w-12" : "h-full w-full p-1"
-              }`}
+              className="h-full w-full object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]"
             />
           </Link>
         </div>
 
-        {/* grupo esquerdo — discreto/ausente com o badge grande, revelado
-            quando o badge retrai (briefing) */}
+        {/* ZONA 1 — reserva o espaço do emblema (que está em absolute) e
+            equilibra a zona 3, mantendo os links no centro real */}
+        <div className="flex-1" aria-hidden />
+
+        {/* ZONA 2 — grupo ÚNICO de links, gap uniforme, centralizado.
+            Some no hero (o emblema ocupa o centro) e abaixo de 1024px
+            (vira menu hambúrguer). */}
         <nav
           aria-label="Navegação principal"
-          className={`relative z-10 col-start-1 hidden items-center gap-6 justify-self-start transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:ml-16 md:flex ${
-            expanded ? "pointer-events-none -translate-y-1 opacity-0" : "translate-y-0 opacity-100"
+          className={`relative z-10 hidden items-center gap-8 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] lg:flex ${
+            expanded
+              ? "pointer-events-none -translate-y-1 opacity-0"
+              : "translate-y-0 opacity-100"
           }`}
         >
-          {headerNavLeft.map((item) => (
-            <Link key={item.href} href={item.href} className={navLinkClass}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* grupo direito: links secundários acompanham o reveal/hide do
-            badge, mas a CTA fica sempre visível (não some com o badge
-            grande — feedback do dono, ela precisa estar sempre acessível) */}
-        <div className="relative z-10 col-start-3 hidden items-center justify-self-end gap-10 md:flex">
-          <nav
-            aria-label="Navegação secundária"
-            className={`flex items-center gap-6 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              expanded ? "pointer-events-none -translate-y-1 opacity-0" : "translate-y-0 opacity-100"
-            }`}
-          >
-            {headerNavRight.map((item) => (
-              <Link key={item.href} href={item.href} className={navLinkClass}>
+          {headerNav.map((item) => {
+            const active = activeHref === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "true" : undefined}
+                className={`${navLinkClass} ${
+                  active ? "text-fog" : "text-fog/70 hover:text-fog"
+                } after:absolute after:-bottom-2 after:left-0 after:h-px after:bg-accent after:transition-all after:duration-300 ${
+                  active ? "after:w-full" : "after:w-0"
+                }`}
+              >
                 {item.label}
               </Link>
-            ))}
-          </nav>
+            );
+          })}
+        </nav>
+
+        {/* ZONA 3 — CTA (≥768px) + hambúrguer (<1024px) */}
+        <div className="relative z-10 flex flex-1 items-center justify-end gap-4">
           <PillButton
             href={site.scheduleUrl}
-            className="px-5 py-2.5 group-data-[theme=light]/header:bg-bronze group-data-[theme=light]/header:text-paper group-data-[theme=light]/header:hover:bg-navy-text"
+            className="hidden px-5 py-2.5 md:inline-flex"
           >
             {ctaLabels.header}
           </PillButton>
-        </div>
 
-        {/* Mobile */}
-        <button
-          type="button"
-          aria-expanded={menuOpen}
-          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-          onClick={() => setMenuOpen((v) => !v)}
-          className="relative z-10 col-start-3 flex h-10 w-10 flex-col items-center justify-center justify-self-end gap-1.5 md:hidden"
-        >
-          <span
-            className={`h-px w-5 bg-fog transition-transform duration-300 group-data-[theme=light]/header:bg-navy-text ${menuOpen ? "translate-y-[3.5px] rotate-45" : ""}`}
-          />
-          <span
-            className={`h-px w-5 bg-fog transition-transform duration-300 group-data-[theme=light]/header:bg-navy-text ${menuOpen ? "-translate-y-[3.5px] -rotate-45" : ""}`}
-          />
-        </button>
+          <button
+            type="button"
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+            onClick={() => setMenuOpen((v) => !v)}
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+          >
+            <span
+              className={`h-px w-5 bg-fog transition-transform duration-300 ${menuOpen ? "translate-y-[3.5px] rotate-45" : ""}`}
+            />
+            <span
+              className={`h-px w-5 bg-fog transition-transform duration-300 ${menuOpen ? "-translate-y-[3.5px] -rotate-45" : ""}`}
+            />
+          </button>
+        </div>
       </div>
 
-      {/* Menu mobile — segue o mesmo tema do header no momento da abertura */}
+      {/* Menu mobile/tablet — sempre navy, como o resto da identidade do
+          header. O CTA aparece aqui abaixo de 768px, onde some da barra. */}
       <div
-        className={`md:hidden ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 -z-10 flex flex-col items-center justify-center gap-8 bg-ink-950/95 backdrop-blur-xl transition-opacity duration-500 group-data-[theme=light]/header:bg-paper/95`}
+        className={`lg:hidden ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 -z-10 flex flex-col items-center justify-center gap-8 bg-ink-950/95 backdrop-blur-xl transition-opacity duration-500`}
       >
-        {mobileNav.map((item) => (
+        {headerNav.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             onClick={() => setMenuOpen(false)}
-            className="font-serif text-3xl text-fog/90 transition-colors hover:text-fog group-data-[theme=light]/header:text-navy-text/90 group-data-[theme=light]/header:hover:text-navy-text"
+            aria-current={activeHref === item.href ? "true" : undefined}
+            className={`font-serif text-3xl transition-colors ${
+              activeHref === item.href
+                ? "text-accent"
+                : "text-fog/90 hover:text-fog"
+            }`}
           >
             {item.label}
           </Link>
         ))}
         <PillButton
           href={site.scheduleUrl}
-          className="mt-4 group-data-[theme=light]/header:border-navy-text/20 group-data-[theme=light]/header:text-navy-text group-data-[theme=light]/header:hover:border-navy-text/50 group-data-[theme=light]/header:hover:bg-navy-text/5"
-          variant="outline"
+          className="mt-4 md:hidden"
+          onClick={() => setMenuOpen(false)}
         >
           {ctaLabels.header}
         </PillButton>
