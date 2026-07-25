@@ -201,11 +201,13 @@ export function PremiumHeader() {
           })}
         </nav>
 
-        {/* ZONA 3 — CTA (≥768px) + hambúrguer (<1024px) */}
+        {/* ZONA 3 — CTA (≥1024px) + hambúrguer (<1024px). O CTA usa a mesma
+            fronteira dos links: abaixo dela a barra fica só com emblema e
+            hambúrguer, e o CTA passa a viver dentro do menu. */}
         <div className="relative z-10 flex flex-1 items-center justify-end gap-4">
           <PillButton
             href={site.scheduleUrl}
-            className="hidden px-5 py-2.5 md:inline-flex"
+            className="hidden px-5 py-2.5 lg:inline-flex"
           >
             {ctaLabels.header}
           </PillButton>
@@ -228,7 +230,7 @@ export function PremiumHeader() {
       </div>
 
       {/* Menu mobile/tablet — sempre navy, como o resto da identidade do
-          header. O CTA aparece aqui abaixo de 768px, onde some da barra. */}
+          header. O CTA aparece aqui abaixo de 1024px, onde some da barra. */}
       <div
         className={`lg:hidden ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 -z-10 flex flex-col items-center justify-center gap-8 bg-ink-950/95 backdrop-blur-xl transition-opacity duration-500`}
       >
@@ -249,7 +251,7 @@ export function PremiumHeader() {
         ))}
         <PillButton
           href={site.scheduleUrl}
-          className="mt-4 md:hidden"
+          className="mt-4"
           onClick={() => setMenuOpen(false)}
         >
           {ctaLabels.header}
