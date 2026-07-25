@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="28" viewBox="0 0.25 30 27.072" role="img" aria-label="XP Investimentos">
+  <!--
+    Logotipo oficial da XP Investimentos, extraído do SVG do cabeçalho de
+    xpi.com.br (clipPath id "logo-xp_svg__a"). Uso da marca autorizado
+    pelo cliente em 2026-07-25.
+
+    A arte é um selo branco sólido com as letras "xp" vazadas (não
+    pintadas): sobre o navy da seção, o fundo aparece através das letras,
+    exatamente como na referência. Por isso este arquivo NÃO deve receber
+    o filtro brightness-0/invert usado nos logos de arte escura — ver
+    `tint: "none"` em data/partners.ts.
+  -->
+  <path fill="#fff" d="M21.85 21.162h3.399c1.27 0 2.154-.58 2.154-1.768s-.884-1.768-2.154-1.768H21.85zm0 6.16h4.531c2.404 0 3.647-1.243 3.647-3.647v-2.513h-.083c-.69 2.1-2.486 2.734-4.614 2.734h-3.37c-.082 0-.11.028-.11.11zm-6.38-7.928 3.48 3.37v-6.74zM3.646 27.322H18.95v-.774c0-1.353.47-2.127 1.547-2.541v-.083h-4.282c-.22 0-.303-.028-.47-.193l-2.237-2.32-2.32 2.347c-.11.11-.194.166-.415.166H7.32c-.193 0-.193-.11-.082-.221l4.42-4.282-4.503-4.364c-.11-.11-.083-.221.11-.221h3.48c.194 0 .277.027.388.165l2.43 2.431 2.293-2.43c.11-.111.194-.166.36-.166h9.088c2.1 0 3.95.69 4.64 2.79h.084V3.896c0-2.403-1.243-3.646-3.647-3.646H3.646C1.243.25 0 1.493 0 3.896v19.807c0 2.376 1.243 3.619 3.646 3.619"/>
+</svg>

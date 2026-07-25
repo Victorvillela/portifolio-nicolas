@@ -48,6 +48,8 @@ export function MagneticButton({
       <Link
         ref={buttonRef}
         href={href}
+        target={/^https?:\/\//.test(href) ? "_blank" : undefined}
+        rel={/^https?:\/\//.test(href) ? "noopener noreferrer" : undefined}
         className="inline-flex items-center justify-center rounded-full bg-fog px-8 py-4 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-ink-950 transition-colors duration-300 hover:bg-parchment"
       >
         {children}

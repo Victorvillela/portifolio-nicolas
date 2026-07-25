@@ -43,18 +43,12 @@ export function MethodologySection() {
   return (
     <section
       aria-label="Metodologia"
-      className="hairline-light-t bg-paper py-28 md:py-40"
+      className="hairline-light-t bg-paper-soft py-28 md:py-40"
     >
       <Container>
         <SectionLabel className="eyebrow-light">Metodologia</SectionLabel>
-        <h2 className="mt-8 max-w-3xl text-4xl font-medium leading-tight tracking-tight text-navy-text md:text-6xl">
-          Patrimônio não é um produto.{" "}
-          <span className="font-serif italic text-bronze">
-            É um sistema.
-          </span>
-        </h2>
 
-        <div className="mt-16 grid gap-16 md:grid-cols-2">
+        <div className="mt-14 grid gap-16 md:mt-20 md:grid-cols-2">
           <ol className="flex flex-col">
             {PILLARS.map((pillar, i) => (
               <li key={pillar.number} className="hairline-light-b">
@@ -101,8 +95,8 @@ export function MethodologySection() {
                   style={{
                     borderColor:
                       i <= active
-                        ? "rgba(30, 58, 110, 0.4)"
-                        : "rgba(10, 18, 32, 0.08)",
+                        ? "color-mix(in srgb, var(--color-blue) 40%, transparent)"
+                        : "color-mix(in srgb, var(--color-bg-primary) 8%, transparent)",
                     transform: `scale(${0.4 + i * 0.2}) rotate(${active * 45 + i * 12}deg)`,
                     borderStyle: i % 2 === 0 ? "solid" : "dashed",
                   }}

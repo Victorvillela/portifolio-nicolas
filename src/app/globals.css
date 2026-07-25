@@ -1,36 +1,100 @@
 @import "tailwindcss";
 
 /*
-  Design system — paleta ancorada no logotipo da NBM Consultoria:
-  azul marinho quase preto em três níveis, texto off-white frio,
-  azul gelo dessaturado como acento. O luxo vem de espaço negativo e
-  tipografia, não de cor. Nomes dos tokens mantidos (champagne/parchment/
-  bronze) para não tocar nas classes já usadas nos componentes — só os
-  valores mudaram, do dourado antigo para a família azul do logo.
-*/
-@theme inline {
-  /* Triad quase-preto derivado da matiz REAL da marca (extraída por
-     amostragem de pixel do nbmlogo.png, ~209°), preservando a mesma
-     saturação/luminosidade que a aproximação anterior tinha — mesma
-     leitura "quase preto", só a matiz corrigida pro tom real do logo. */
-  --color-ink-950: #070e14;
-  --color-ink-900: #0a1520;
-  --color-ink-800: #101e2c;
-  --color-fog: #f2f4f7;
-  --color-ash: #8c94a3;
-  --color-parchment: #c7dcf5;
-  --color-champagne: #8fb8e8;
-  --color-bronze: #1e3a6e;
+  ============================================================
+  DESIGN TOKENS — fonte única de cor do site
+  ============================================================
+  Paleta derivada do logotipo (public/images/nbmlogo.png), por
+  amostragem de pixel do arquivo. Valores medidos no logo:
 
-  /* Tema claro (HOME institucional, após a transição) — mesma família de
-     azuis do logo, polaridade invertida. bronze/champagne já servem de
-     CTA/acento (valores coincidem com o pedido do briefing), só o papel
-     de fundo/texto precisa de tokens novos. */
-  --color-paper: #ffffff;
-  --color-paper-soft: #f7f9fc;
-  --color-navy-text: #0a1220;
-  --color-navy-text-soft: #5a6678;
-  --color-card-border: #e4e9f0;
+    fundo navy .......... #030c1b  (dominante, 137k px)
+    barras azuis ........ #01356b → #1263ac
+    seta verde .......... #34bc71  (esmeralda, não verde-grama)
+    prata / letreiro .... #c3c5cb → #cbcdd3
+
+  Os tokens abaixo mantêm a MATIZ medida (~212° nos azuis, ~148°
+  no verde) e ajustam luminosidade para virarem superfícies de UI
+  utilizáveis — o navy do logo puro (#030c1b) é quase preto e
+  achata a hierarquia entre seções.
+
+  A arquitetura bi-tonal do site é intencional e foi preservada:
+  ATO 01 (hero) escuro → HOME institucional clara. Por isso existem
+  dois conjuntos de superfície, e o verde existe em dois níveis —
+  ver --color-accent-ink.
+*/
+@theme {
+  /* -- navy institucional (hero, header, footer, blocos escuros) -- */
+  --color-navy: #0a1a2f;
+  --color-navy-secondary: #0f2540;
+  --color-navy-elevated: #16345a;
+
+  /* -- azuis institucionais (barras do logo) -- */
+  --color-blue: #1f4e8c;
+  --color-blue-light: #2b6cb8;
+
+  /* -- verde: cor de AÇÃO (CTA), nunca dominante --
+     branco sobre #5cb85c dá 2.48:1 — todo preenchimento verde carrega
+     texto NAVY (7.04:1). accent-ink é o verde fechado para TEXTO sobre
+     fundo claro (5.26:1). */
+  --color-accent: #5cb85c;
+  --color-accent-hover: #6cc26b;
+  --color-accent-ink: #357a38;
+
+  /* -- dourado: exclusivo de números/estatísticas de destaque --
+     gold/gold-deep valem sobre navy (8.04:1). Sobre fundo claro o par
+     reprova até em texto grande (2.17:1), então as seções claras usam
+     gold-ink-soft/gold-ink — a mesma família, fechada (≥3:1). */
+  --color-gold: #d9a84e;
+  --color-gold-deep: #c8922f;
+  --color-gold-ink-soft: #b07e23;
+  --color-gold-ink: #a87720;
+
+  /* -- texto sobre navy -- */
+  --color-text-on-dark: #f2f4f7;
+  --color-silver: #c7cdd6;
+  --color-text-muted: #8b95a3;
+
+  /* -- superfícies claras (HOME institucional) --
+     Seções claras NÃO usam branco puro como fundo: alternam entre o
+     gradiente pálido (blue-pale → blue-lavender, ver .bg-pale-gradient)
+     e o neutro bg-light-soft. bg-light (#fff) fica para cards/pills. */
+  --color-bg-light: #ffffff;
+  --color-bg-light-soft: #f7f9fc;
+  --color-blue-pale: #e3edf3;
+  --color-blue-lavender: #e0e5f7;
+  /* cinza-azulado escuro, mesma matiz do navy — nunca preto puro */
+  --color-text-on-light: #16233a;
+  --color-text-on-light-soft: #4a5a70;
+  --color-border-light: #e1e7ef;
+
+  /*
+    Aliases legados. Os nomes ink-950, fog, ash, parchment, champagne,
+    bronze, paper, navy-text, card-border (e os bg-primary/text-primary
+    da rodada anterior) já estão espalhados por ~14 componentes — em vez
+    de reescrever classe por classe, eles apenas APONTAM para os tokens
+    acima. Retonalizar o site passa a ser editar este bloco, não caçar
+    hex pelos componentes.
+  */
+  --color-bg-primary: var(--color-navy);
+  --color-bg-secondary: var(--color-navy-secondary);
+  --color-bg-elevated: var(--color-navy-elevated);
+  --color-text-primary: var(--color-text-on-dark);
+  --color-text-secondary: var(--color-silver);
+  --color-surface-light: var(--color-bg-light);
+  --color-surface-light-soft: var(--color-bg-light-soft);
+  --color-ink-950: var(--color-navy);
+  --color-ink-900: var(--color-navy-secondary);
+  --color-ink-800: var(--color-navy-elevated);
+  --color-fog: var(--color-text-on-dark);
+  --color-ash: var(--color-text-muted);
+  --color-parchment: var(--color-silver);
+  --color-champagne: var(--color-blue-light);
+  --color-bronze: var(--color-blue);
+  --color-paper: var(--color-bg-light);
+  --color-paper-soft: var(--color-bg-light-soft);
+  --color-navy-text: var(--color-text-on-light);
+  --color-navy-text-soft: var(--color-text-on-light-soft);
+  --color-card-border: var(--color-border-light);
 
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
@@ -70,8 +134,8 @@ body {
 }
 
 ::selection {
-  background-color: rgba(143, 184, 232,0.35);
-  color: var(--color-fog);
+  background-color: color-mix(in srgb, var(--color-blue-light) 35%, transparent);
+  color: var(--color-text-primary);
 }
 
 /* Grain global extremamente sutil (briefing: noise via overlay CSS, não post-processing) */
@@ -91,8 +155,33 @@ body::after {
 .text-luminous {
   background-image: linear-gradient(
     to bottom,
-    var(--color-fog) 30%,
-    rgba(242, 244, 247,0.45)
+    var(--color-text-primary) 30%,
+    color-mix(in srgb, var(--color-text-primary) 45%, transparent)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Números/valores de destaque em dourado (linguagem de "resultado"):
+   gradiente sutil na própria letra. Duas variantes porque o mesmo par
+   de ouro não passa contraste nas duas polaridades — ver tokens. */
+.stat-gold {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-gold),
+    var(--color-gold-deep)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.stat-gold-on-light {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-gold-ink-soft),
+    var(--color-gold-ink)
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -103,7 +192,7 @@ body::after {
 .bg-halo-champagne {
   background-image: radial-gradient(
     ellipse 50% 40% at 50% 100%,
-    rgba(143, 184, 232,0.08),
+    color-mix(in srgb, var(--color-blue-light) 8%, transparent),
     transparent 70%
   );
 }
@@ -111,32 +200,51 @@ body::after {
 /* Scrim do hero (Ato 01): navy translúcido sobre a imagem de fundo —
    mais forte perto do headline (centro), esmaece nas bordas. */
 .hero-overlay {
-  background-color: rgba(7, 14, 20, 0.42);
+  background-color: color-mix(in srgb, var(--color-bg-primary) 42%, transparent);
   background-image: radial-gradient(
     ellipse 70% 60% at 50% 42%,
-    rgba(7, 14, 20, 0.66),
-    rgba(7, 14, 20, 0.18) 72%
+    color-mix(in srgb, var(--color-bg-primary) 66%, transparent),
+    color-mix(in srgb, var(--color-bg-primary) 18%, transparent) 72%
   );
 }
 
-/* Badge fixo do emblema no header (ref. Don Molinico): navy REAL do
-   logo (amostragem de pixel do nbmlogo.png, não o ink-950 do design
-   system) — o badge não muda com o tema, só o fundo ao redor dele muda. */
-.badge-navy {
-  background-color: #003465;
+/* Fade da base do hero: o vídeo se resolve em NAVY SÓLIDO — o hero é
+   escuro do início ao fim; a virada para o tema claro acontece depois,
+   na borda com a próxima seção, nunca dissolvendo o vídeo em branco.
+   Sólido a partir de ~78% da faixa: é ali que a barra de métricas se
+   apoia, sempre sobre navy 100% (nunca no meio do degradê). */
+.hero-fade-bottom {
+  background-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 25%,
+    color-mix(in srgb, var(--color-navy) 85%, transparent) 52%,
+    var(--color-navy) 68%,
+    var(--color-navy) 100%
+  );
 }
 
-/* Borda 1px extremamente sutil */
+/* Fundo pálido das seções claras (ref. seção "Experiências"): gradiente
+   azul-lavanda quase branco — continuidade tonal com o navy sem pesar. */
+.bg-pale-gradient {
+  background-image: linear-gradient(
+    160deg,
+    var(--color-blue-pale),
+    var(--color-blue-lavender)
+  );
+}
+
+/* Borda 1px extremamente sutil — prata da marca em baixa opacidade */
 .hairline {
-  border: 1px solid rgba(242, 244, 247,0.08);
+  border: 1px solid color-mix(in srgb, var(--color-text-secondary) 12%, transparent);
 }
 
 .hairline-t {
-  border-top: 1px solid rgba(242, 244, 247,0.08);
+  border-top: 1px solid color-mix(in srgb, var(--color-text-secondary) 12%, transparent);
 }
 
 .hairline-b {
-  border-bottom: 1px solid rgba(242, 244, 247,0.08);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text-secondary) 12%, transparent);
 }
 
 /* Bordas do tema claro (HOME institucional) */
@@ -152,9 +260,11 @@ body::after {
   border-bottom: 1px solid var(--color-card-border);
 }
 
-/* Sombra fria suave para cards no tema claro */
+/* Sombra fria suave para cards no tema claro — navy da marca, não preto */
 .shadow-paper {
-  box-shadow: 0 1px 2px rgba(10, 18, 32, 0.03), 0 12px 32px rgba(10, 18, 32, 0.06);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--color-bg-primary) 4%, transparent),
+    0 12px 32px color-mix(in srgb, var(--color-bg-primary) 8%, transparent);
 }
 
 /* Label institucional em small caps espaçadas */
@@ -162,7 +272,7 @@ body::after {
   font-size: 0.6875rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--color-ash);
+  color: var(--color-text-muted);
 }
 
 /* Variante clara do .eyebrow — precisa ser uma regra "crua" como a
@@ -170,11 +280,24 @@ body::after {
    fora de @layer ficam fora do sistema de camadas do Tailwind e uma
    utility não teria prioridade garantida sobre .eyebrow aqui. */
 .eyebrow-light {
-  color: var(--color-navy-text-soft);
+  color: var(--color-text-on-light-soft);
 }
 
-/* Marquee de credibilidade — lento, contínuo */
-@keyframes marquee-scroll {
+/*
+  ESTEIRA DE PARCEIROS — fluxo horizontal contínuo, velocidade constante.
+
+  Loop sem emenda: o trilho carrega a lista DUPLICADA e desliza até
+  translateX(-50%), onde a 2ª cópia assume exatamente a posição da 1ª.
+
+  Detalhe que faz o -50% ser exato: o espaçamento "de saída" de cada
+  cópia entra como padding-right do grupo, não como gap do trilho. Com
+  gap no trilho, a largura total ganharia UM gap extra entre as cópias e
+  -50% pararia meio gap adiantado — a emenda apareceria como um pulinho
+  a cada volta. (É por isso que a referência precisou de um "-5px"
+  corretivo no keyframe.) Com o padding, o trilho é exatamente
+  2 × (grupo + espaçamento), e -50% cai no início visual.
+*/
+@keyframes marquee-partners {
   from {
     transform: translate3d(0, 0, 0);
   }
@@ -183,12 +306,95 @@ body::after {
   }
 }
 
-.marquee-track {
-  animation: marquee-scroll 48s linear infinite;
+.marquee-viewport {
+  --marquee-gap: 4.5rem;
+  --marquee-duration: 30s;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* logos entram e saem em fade, nunca cortados na borda */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
 }
 
-.marquee-track:hover {
+.marquee-partners {
+  display: flex;
+  width: max-content;
+  /* linear é o que dá a leitura de esteira: sem aceleração no início
+     nem freada no fim de cada volta */
+  animation: marquee-partners var(--marquee-duration) linear infinite;
+  /* promove a camada: evita repaint do strip inteiro a cada frame */
+  will-change: transform;
+}
+
+.marquee-partners__group,
+.marquee-partners__cycle {
+  display: flex;
+  align-items: center;
+  gap: var(--marquee-gap);
+}
+
+.marquee-partners__group {
+  padding-right: var(--marquee-gap);
+}
+
+/* pausa ao passar o mouse em qualquer ponto da faixa, não só sobre um logo */
+.marquee-viewport:hover .marquee-partners {
   animation-play-state: paused;
+}
+
+/* mobile: espaçamento e logos menores; volta mais curta para o fluxo
+   não parecer arrastado numa tela estreita */
+@media (max-width: 767px) {
+  .marquee-viewport {
+    --marquee-gap: 2.5rem;
+    --marquee-duration: 22s;
+  }
+}
+
+/*
+  Sem movimento (preferência do sistema): a esteira vira um grid estático
+  e centralizado, em vez de ficar congelada e cortada pela borda. Somem a
+  2ª cópia (que só existe para o loop) e as repetições internas (que só
+  existem para dar largura ao trilho), sobrando um ciclo com cada
+  parceiro uma única vez.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .marquee-viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .marquee-partners {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--marquee-gap);
+    animation: none;
+  }
+
+  .marquee-partners__group:not(:first-child),
+  .marquee-partners__cycle:not(:first-child) {
+    display: none;
+  }
+
+  .marquee-partners__group {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
 }
 
 /* Pulso dos pontos da seção de tecnologia */
