@@ -5,12 +5,27 @@
 */
 
 export const site = {
-  // TODO: substituir pelo domínio real ao publicar
-  url: "https://www.example.com.br",
+  /* Domínio real. É a base de metadataBase, sitemap.xml e robots.txt —
+     enquanto estava em placeholder, o site anunciava ao Google que
+     morava em outro endereço. Sem barra no fim. */
+  url: "https://nbmconsultoria.com.br",
   // TODO: confirmar nome completo do consultor com o cliente antes de publicar
   name: "Nicolas",
   // Marca curta usada no header e no footer
   brandMark: "NBM Consultoria",
+  // Endereço comercial (declarado no perfil oficial do Instagram) —
+  // usado nos dados estruturados que o Google lê
+  address: {
+    street: "Avenida Engenheiro Luiz Carlos Berrini, 1748",
+    city: "São Paulo",
+    state: "SP",
+    postalCode: "04571-000",
+    country: "BR",
+  },
+  /* Verificação do Google Search Console. Cole aqui APENAS o valor do
+     content= da meta tag que o Search Console fornece na opção
+     "Tag HTML" (a string solta, sem <meta ...>). Vazio = tag omitida. */
+  googleSiteVerification: "sxDCymz7nzxxI5L6PVwEK2m5MlbQOuT3xVhrGNik9ys",
   // TODO: confirmar o título profissional correto conforme registro/atuação real
   role: "Consultor de investimentos · NBM Consultoria",
   headline:
