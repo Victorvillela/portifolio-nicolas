@@ -25,7 +25,7 @@ export const cases: CaseStudy[] = [
     strategy:
       "[PLACEHOLDER] Diagnóstico completo, definição de política de investimentos e realocação gradual por etapas.",
     outcome:
-      "[PLACEHOLDER] Estrutura consolidada com papéis definidos para cada classe de ativo — sem menção a rentabilidade.",
+      "[PLACEHOLDER] Estrutura consolidada com papéis definidos para cada classe de ativo, sem menção a rentabilidade.",
     isPlaceholder: true,
   },
   {
@@ -38,7 +38,7 @@ export const cases: CaseStudy[] = [
     strategy:
       "[PLACEHOLDER] Plano de acumulação com rebalanceamento periódico e revisões semestrais.",
     outcome:
-      "[PLACEHOLDER] Rotina de decisão previsível e alinhada ao horizonte — sem promessa de resultado.",
+      "[PLACEHOLDER] Rotina de decisão previsível e alinhada ao horizonte, sem promessa de resultado.",
     isPlaceholder: true,
   },
   {
@@ -51,7 +51,7 @@ export const cases: CaseStudy[] = [
     strategy:
       "[PLACEHOLDER] Reavaliação de perfil, redistribuição por classes e proteção de liquidez essencial.",
     outcome:
-      "[PLACEHOLDER] Carteira coerente com o contexto real do investidor — comparação puramente qualitativa.",
+      "[PLACEHOLDER] Carteira coerente com o contexto real do investidor, com comparação puramente qualitativa.",
     isPlaceholder: true,
   },
 ];

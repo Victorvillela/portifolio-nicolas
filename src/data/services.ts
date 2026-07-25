@@ -14,7 +14,7 @@ export const services: Service[] = [
     number: "01",
     title: "Análise financeira",
     description:
-      "Avaliação da saúde financeira de indivíduo ou empresa — balanços, demonstrações de resultados e fluxos de caixa.",
+      "Avaliação da saúde financeira de indivíduo ou empresa: balanços, demonstrações de resultados e fluxos de caixa.",
   },
   {
     number: "02",

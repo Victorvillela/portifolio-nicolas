@@ -25,13 +25,13 @@ const instrumentSerif = Instrument_Serif({
   siteName e dados estruturados usam brandMark ("NBM Consultoria"), não
   o nome da pessoa. É por esse título que o resultado aparece no Google.
 */
-const tituloPadrao = `${site.brandMark} — Consultoria de Investimentos e Planejamento Financeiro`;
+const tituloPadrao = `${site.brandMark} | Consultoria de Investimentos e Planejamento Financeiro`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
     default: tituloPadrao,
-    template: `%s — ${site.brandMark}`,
+    template: `%s | ${site.brandMark}`,
   },
   description: site.headline,
   // canônica: evita o Google tratar variações de URL como páginas distintas

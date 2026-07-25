@@ -21,7 +21,7 @@ const PILLARS = [
     number: "02",
     title: "Planejamento",
     description:
-      "Definir e estruturar metas de longo prazo — aposentadoria, imóvel, expansão de negócio.",
+      "Definir e estruturar metas de longo prazo: aposentadoria, imóvel, expansão de negócio.",
   },
   {
     number: "03",

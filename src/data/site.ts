@@ -83,7 +83,7 @@ export const site = {
   about: {
     headline: "O mercado oferece produtos.",
     headlineAccent: "Nós oferecemos um método.",
-    bio: "A NBM Consultoria atua como gestora de investimentos e consultoria de planejamento financeiro e empresarial. Cada patrimônio é analisado no seu próprio contexto — objetivos, horizonte de tempo, tolerância a risco e momento de vida — para que a recomendação nasça de uma leitura completa, e não de um produto pronto.",
+    bio: "A NBM Consultoria atua como gestora de investimentos e consultoria de planejamento financeiro e empresarial. Cada patrimônio é analisado no seu próprio contexto (objetivos, horizonte de tempo, tolerância a risco e momento de vida) para que a recomendação nasça de uma leitura completa, e não de um produto pronto.",
     bioSecondary:
       "As melhores estratégias são aquelas construídas com antecedência e acompanhadas ao longo do tempo. É esse acompanhamento contínuo que mantém o patrimônio alinhado ao seu propósito, inclusive na transição para as próximas gerações.",
     // frentes de atuação declaradas na bio oficial do perfil
