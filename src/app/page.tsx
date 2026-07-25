@@ -20,8 +20,11 @@ export default function Home() {
       <MetricsSection />
 
       <MethodologySection />
-      <ServicesSection />
+      {/* Sobre antes de Serviços: a seção Sobre apresenta a tese da marca
+          ("o mercado oferece produtos, nós oferecemos um método") e
+          Serviços entra na sequência como a demonstração prática dela. */}
       <AboutSection />
+      <ServicesSection />
       <FAQSection />
       <FinalWealthCore />
     </>

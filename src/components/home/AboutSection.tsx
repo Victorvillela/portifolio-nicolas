@@ -15,7 +15,10 @@ export function AboutSection() {
   const { about, certifications } = site;
 
   return (
-    <section id="sobre" className="hairline-light-t bg-paper-soft py-28 md:py-40">
+    /* fundo acompanha a POSIÇÃO na página, não a seção: as seções claras
+       alternam gradiente ↔ neutro, então ao trocar de lugar com Serviços
+       as duas trocaram de fundo para o ritmo seguir igual */
+    <section id="sobre" className="bg-pale-gradient hairline-light-t py-28 md:py-40">
       <Container className="max-w-3xl">
         <SectionLabel className="eyebrow-light">Sobre</SectionLabel>
 

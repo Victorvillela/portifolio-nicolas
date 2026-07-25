@@ -9,13 +9,16 @@ import { site } from "@/data/site";
 */
 export function ServicesSection() {
   return (
-    <section id="servicos" className="bg-pale-gradient hairline-light-t py-28 md:py-40">
+    <section id="servicos" className="hairline-light-t bg-paper-soft py-28 md:py-40">
       <Container>
         <SectionLabel className="eyebrow-light">Serviços</SectionLabel>
+        {/* A tese "método, não prateleira de produtos" já é o título da
+            seção Sobre, que agora vem antes — aqui o título entrega a
+            aplicação prática dela, sem repetir a mesma formulação. */}
         <h2 className="mt-8 max-w-3xl text-4xl font-medium leading-tight tracking-tight text-navy-text md:text-6xl">
-          Um sistema de decisão,{" "}
+          O método{" "}
           <span className="font-serif italic text-bronze">
-            não uma prateleira de produtos.
+            em ação.
           </span>
         </h2>
 
