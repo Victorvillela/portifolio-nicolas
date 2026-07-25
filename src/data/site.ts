@@ -46,7 +46,6 @@ export const site = {
   // Vídeos — podem apontar para o mesmo arquivo ou arquivos diferentes (briefing, Atos 05 e 07)
   // TODO: substituir pelos vídeos reais gravados (placeholders não incluídos no repositório)
   heroVideoSrc: "/videos/hero-background.mp4",
-  aboutImageSrc: "/images/profile-about.webp",
 
   // Relação institucional com a XP — apenas texto, nunca o logotipo oficial (briefing)
   // TODO: validar redação exata com o compliance da XP
@@ -57,13 +56,28 @@ export const site = {
   // Exemplo de item: { label: "CEA", institution: "ANBIMA" }
   certifications: [] as { label: string; institution?: string }[],
 
-  // Blocos do "Sobre" — ocultos enquanto vazios. Nunca preencher com invenção.
+  /*
+    Bloco "Sobre" — institucional (sobre a empresa, não sobre uma pessoa).
+    Texto redigido a partir do que a própria NBM publica no Instagram
+    oficial (@nbmconsultoria): a bio do perfil lista as frentes de
+    atuação e o volume sob gestão, e os posts trazem o posicionamento
+    ("O mercado oferece produtos. Nós oferecemos um método.") e a leitura
+    de planejamento sucessório. Nada aqui é suposição — ao ampliar este
+    texto, manter a mesma regra.
+  */
   about: {
-    // TODO: substituir por biografia real
-    bio: "Biografia institucional em construção. Este texto é um placeholder e deve ser substituído pela trajetória real do consultor — formação, experiência no mercado de capitais e filosofia de trabalho.",
-    experience: [] as { period: string; title: string; description?: string }[],
-    education: [] as { institution: string; course: string }[],
-    specialties: [] as string[],
+    headline: "O mercado oferece produtos.",
+    headlineAccent: "Nós oferecemos um método.",
+    bio: "A NBM Consultoria atua como gestora de investimentos e consultoria de planejamento financeiro e empresarial. Cada patrimônio é analisado no seu próprio contexto — objetivos, horizonte de tempo, tolerância a risco e momento de vida — para que a recomendação nasça de uma leitura completa, e não de um produto pronto.",
+    bioSecondary:
+      "As melhores estratégias são aquelas construídas com antecedência e acompanhadas ao longo do tempo. É esse acompanhamento contínuo que mantém o patrimônio alinhado ao seu propósito, inclusive na transição para as próximas gerações.",
+    // frentes de atuação declaradas na bio oficial do perfil
+    pillars: [
+      "Gestão de investimentos",
+      "Planejamento financeiro e empresarial",
+      "Gerenciamento de FIDC",
+      "Planejamento sucessório",
+    ],
   },
 
   // TODO: ajustar com o texto jurídico correto exigido pela XP/compliance
