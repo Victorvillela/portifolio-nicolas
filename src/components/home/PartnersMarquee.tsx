@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { partners } from "@/data/partners";
+import { partners, type Partner } from "@/data/partners";
 import { site } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 
@@ -24,6 +24,67 @@ import { Container } from "@/components/ui/Container";
 
 // repetições do 1º render (SSR) — trocadas pela medição no cliente
 const CICLOS_INICIAIS = 4;
+
+/*
+  Lockup de um parceiro: símbolo + texto. Mesmo bloco nas duas
+  apresentações (esteira ≥768px, coluna <768px); o que muda é só o
+  divisor, que na esteira é vertical à esquerda (entra e sai junto com o
+  item) e na coluna é horizontal no topo.
+*/
+function PartnerLockup({
+  partner,
+  labelled,
+  divider,
+}: {
+  partner: Partner;
+  /** só a 1ª cópia da esteira carrega o alt; as demais são decorativas */
+  labelled: boolean;
+  divider: "left" | "top";
+}) {
+  return (
+    <div
+      className={`flex shrink-0 items-center gap-5 ${
+        divider === "left"
+          ? "border-l border-white/20 pl-12 md:gap-6 md:pl-14"
+          : "w-full justify-center border-t border-white/15 pt-8 first:border-t-0 first:pt-0"
+      }`}
+    >
+      {partner.icon && (
+        <Image
+          src={partner.icon.src}
+          alt={labelled ? partner.label : ""}
+          width={partner.icon.width}
+          height={partner.icon.height}
+          /* eager: numa esteira em movimento o lazy-load faria os
+             símbolos "pipocarem" ao entrar em quadro */
+          loading="eager"
+          /* altura fixa + object-contain normaliza o tamanho óptico entre
+             símbolos de proporções diferentes; o filtro só entra na arte
+             escura (ver tint) */
+          className={`h-8 w-auto shrink-0 object-contain md:h-11 ${
+            partner.icon.tint === "invert" ? "brightness-0 invert" : ""
+          }`}
+        />
+      )}
+
+      <div className="text-left">
+        {partner.titleLines.map((linha) => (
+          <p
+            key={linha}
+            className="whitespace-nowrap text-xs font-semibold uppercase leading-snug tracking-[0.2em] text-fog md:text-sm"
+          >
+            {linha}
+          </p>
+        ))}
+        {partner.caption && (
+          <p className="mt-1.5 whitespace-nowrap text-[0.7rem] tracking-[0.14em] text-silver/70 md:text-xs">
+            {partner.caption}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export function PartnersMarquee() {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -69,47 +130,12 @@ export function PartnersMarquee() {
         className="marquee-partners__cycle"
       >
         {partners.map((partner, i) => (
-          /* divisor vertical entre blocos (1px, branco 20%), como na
-             referência — a borda vive no próprio item, então entra e
-             sai junto com ele na esteira */
-          <div
+          <PartnerLockup
             key={i}
-            className="flex shrink-0 items-center gap-5 border-l border-white/20 pl-12 md:gap-6 md:pl-14"
-          >
-            {partner.icon && (
-              <Image
-                src={partner.icon.src}
-                alt={original ? partner.label : ""}
-                width={partner.icon.width}
-                height={partner.icon.height}
-                /* eager: numa esteira em movimento o lazy-load faria os
-                   símbolos "pipocarem" ao entrar em quadro */
-                loading="eager"
-                /* altura fixa + object-contain normaliza o tamanho
-                   óptico entre símbolos de proporções diferentes; o
-                   filtro só entra na arte escura (ver tint) */
-                className={`h-8 w-auto shrink-0 object-contain md:h-11 ${
-                  partner.icon.tint === "invert" ? "brightness-0 invert" : ""
-                }`}
-              />
-            )}
-
-            <div className="text-left">
-              {partner.titleLines.map((linha) => (
-                <p
-                  key={linha}
-                  className="whitespace-nowrap text-xs font-semibold uppercase leading-snug tracking-[0.2em] text-fog md:text-sm"
-                >
-                  {linha}
-                </p>
-              ))}
-              {partner.caption && (
-                <p className="mt-1.5 whitespace-nowrap text-[0.7rem] tracking-[0.14em] text-silver/70 md:text-xs">
-                  {partner.caption}
-                </p>
-              )}
-            </div>
-          </div>
+            partner={partner}
+            labelled={original}
+            divider="left"
+          />
         ))}
       </div>
     );
@@ -130,9 +156,29 @@ export function PartnersMarquee() {
         <p className="eyebrow text-center">Parceiros</p>
       </Container>
 
-      {/* lista duplicada na íntegra: [grupo, grupo] — o -50% do keyframe
-          cai exatamente no início visual */}
-      <div ref={viewportRef} className="marquee-viewport mt-12">
+      {/* MOBILE (<768px) — coluna estática, centralizada. A esteira supõe
+          largura sobrando para o item entrar e sair inteiro em quadro;
+          numa tela de ~375px cada lockup já é mais largo que a metade
+          útil, então o parceiro vivia cortado pela máscara de fade em vez
+          de ser lido. Aqui as duas marcas ficam sempre inteiras, dentro
+          do padding do Container — sem overflow horizontal. */}
+      <Container>
+        <div className="mt-10 flex flex-col items-center gap-8 md:hidden">
+          {partners.map((partner, i) => (
+            <PartnerLockup
+              key={i}
+              partner={partner}
+              labelled
+              divider="top"
+            />
+          ))}
+        </div>
+      </Container>
+
+      {/* DESKTOP/TABLET (≥768px) — esteira contínua. Lista duplicada na
+          íntegra: [grupo, grupo] — o -50% do keyframe cai exatamente no
+          início visual */}
+      <div ref={viewportRef} className="marquee-viewport mt-12 hidden md:block">
         <div className="marquee-partners">
           {renderGroup(0)}
           {renderGroup(1)}

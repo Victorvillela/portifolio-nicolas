@@ -151,6 +151,25 @@ body::after {
   mix-blend-mode: overlay;
 }
 
+/*
+  Barra do header enquanto o menu mobile está aberto: sem fundo, sem
+  sombra, sem blur. O drawer é irmão do header e fica em z-40, logo abaixo
+  dele — então o fundo sólido do painel também é o fundo da barra, e a
+  logo e o X pousam nele sem emenda de cor no topo. Sem isso, ao rolar
+  para o tema claro a barra manteria bg-navy/92 + blur e apareceria como
+  uma faixa de tom diferente sobre o menu.
+
+  !important porque as utilitárias que isso anula vêm de variantes
+  data-[theme=light]: — dois seletores de classe, especificidade maior que
+  a de qualquer classe simples que pudesse ser somada aqui.
+*/
+header[data-menu="open"] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
 /* Headline com leitura de luz (Referência B): topo claro, base esmaecida */
 .text-luminous {
   background-image: linear-gradient(
@@ -355,14 +374,10 @@ body::after {
   animation-play-state: paused;
 }
 
-/* mobile: espaçamento e logos menores; volta mais curta para o fluxo
-   não parecer arrastado numa tela estreita */
-@media (max-width: 767px) {
-  .marquee-viewport {
-    --marquee-gap: 2.5rem;
-    --marquee-duration: 22s;
-  }
-}
+/* Abaixo de 768px não existe esteira: o PartnersMarquee troca a faixa por
+   uma coluna estática (os lockups são largos demais para entrar inteiros
+   numa tela estreita, ver o componente). Por isso não há override de gap
+   ou duração para mobile aqui — a menor largura que anima é 768px. */
 
 /*
   Sem movimento (preferência do sistema): a esteira vira um grid estático
