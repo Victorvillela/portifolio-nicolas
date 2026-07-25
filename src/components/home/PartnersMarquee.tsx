@@ -60,43 +60,60 @@ export function PartnersMarquee() {
     };
   }, []);
 
-  const renderCycle = (copy: number, cycle: number) => (
-    <div
-      key={cycle}
-      ref={copy === 0 && cycle === 0 ? cycleRef : undefined}
-      className="marquee-partners__cycle"
-    >
-      {partners.map((partner, i) =>
-        partner.kind === "logo" ? (
-          <Image
+  const renderCycle = (copy: number, cycle: number) => {
+    const original = copy === 0 && cycle === 0;
+    return (
+      <div
+        key={cycle}
+        ref={original ? cycleRef : undefined}
+        className="marquee-partners__cycle"
+      >
+        {partners.map((partner, i) => (
+          /* divisor vertical entre blocos (1px, branco 20%), como na
+             referência — a borda vive no próprio item, então entra e
+             sai junto com ele na esteira */
+          <div
             key={i}
-            src={partner.src}
-            alt={copy === 0 && cycle === 0 ? partner.alt : ""}
-            width={partner.width}
-            height={partner.height}
-            /* eager: numa esteira em movimento o lazy-load faria os
-               logos "pipocarem" ao entrar em quadro */
-            loading="eager"
-            /* altura fixa + object-contain normaliza o tamanho óptico
-               entre logos de proporções diferentes. brightness-0 +
-               invert unifica tudo em branco/prata sobre o navy. */
-            className="h-7 w-auto shrink-0 object-contain opacity-75 brightness-0 invert transition-opacity duration-500 hover:opacity-100 md:h-10"
-          />
-        ) : (
-          <div key={i} className="shrink-0 text-center">
-            <p className="whitespace-nowrap text-sm font-medium uppercase tracking-[0.28em] text-fog/85">
-              {partner.highlight}
-            </p>
-            {partner.caption && (
-              <p className="mt-1.5 whitespace-nowrap text-xs tracking-wide text-silver/70">
-                {partner.caption}
-              </p>
+            className="flex shrink-0 items-center gap-5 border-l border-white/20 pl-12 md:gap-6 md:pl-14"
+          >
+            {partner.icon && (
+              <Image
+                src={partner.icon.src}
+                alt={original ? partner.label : ""}
+                width={partner.icon.width}
+                height={partner.icon.height}
+                /* eager: numa esteira em movimento o lazy-load faria os
+                   símbolos "pipocarem" ao entrar em quadro */
+                loading="eager"
+                /* altura fixa + object-contain normaliza o tamanho
+                   óptico entre símbolos de proporções diferentes; o
+                   filtro só entra na arte escura (ver tint) */
+                className={`h-8 w-auto shrink-0 object-contain md:h-11 ${
+                  partner.icon.tint === "invert" ? "brightness-0 invert" : ""
+                }`}
+              />
             )}
+
+            <div className="text-left">
+              {partner.titleLines.map((linha) => (
+                <p
+                  key={linha}
+                  className="whitespace-nowrap text-xs font-semibold uppercase leading-snug tracking-[0.2em] text-fog md:text-sm"
+                >
+                  {linha}
+                </p>
+              ))}
+              {partner.caption && (
+                <p className="mt-1.5 whitespace-nowrap text-[0.7rem] tracking-[0.14em] text-silver/70 md:text-xs">
+                  {partner.caption}
+                </p>
+              )}
+            </div>
           </div>
-        ),
-      )}
-    </div>
-  );
+        ))}
+      </div>
+    );
+  };
 
   const renderGroup = (copy: number) => (
     <div className="marquee-partners__group" aria-hidden={copy > 0}>

@@ -1,42 +1,60 @@
 /*
   Parceiros institucionais exibidos no PartnersMarquee.
-  Regra do briefing: menção à XP sempre em TEXTO institucional — nunca o
-  logotipo oficial (compliance). Novos parceiros: basta adicionar itens
-  aqui; o marquee (lista duplicada + translateX(-50%)) se ajusta sozinho.
 
-  Logos de arquivo (public/parceiros/): exibidos em branco/prata sobre o
-  navy via filter brightness-0 invert (o arquivo original tem texto
-  escuro). Baixados do site oficial do parceiro em 2026-07-25.
+  Cada item é um "lockup": símbolo da marca + texto em dois níveis
+  (linha principal em caixa alta + legenda menor). Novos parceiros: basta
+  acrescentar aqui — a esteira mede o ciclo em runtime e ajusta sozinha
+  quantas repetições precisa.
+
+  MARCA DA XP: o briefing original restringia a menção à XP a texto
+  institucional, sem o logotipo. O cliente autorizou o uso da marca em
+  2026-07-25, então o selo oficial passou a ser exibido. Se a XP revogar
+  a autorização, basta remover o `icon` deste item — o bloco volta a ser
+  só texto sem quebrar o layout.
 */
 
-export type Partner =
-  | {
-      kind: "text";
-      /* linha principal, exibida em caixa alta */
-      highlight: string;
-      /* legenda menor abaixo, em prata */
-      caption?: string;
-    }
-  | {
-      kind: "logo";
-      src: string;
-      alt: string;
-      /* dimensões intrínsecas do arquivo (next/image) */
-      width: number;
-      height: number;
-    };
+export type Partner = {
+  /** símbolo da marca; ausente quando o uso do logo não é autorizado */
+  icon?: {
+    src: string;
+    width: number;
+    height: number;
+    /**
+     * "invert": arte escura, convertida para branco por filtro.
+     * "none": arte já branca (ou com vazados que o filtro destruiria).
+     */
+    tint: "invert" | "none";
+  };
+  /** linha principal, exibida em caixa alta (uma entrada por linha) */
+  titleLines: string[];
+  /** legenda menor abaixo da linha principal */
+  caption?: string;
+  /** nome acessível do bloco inteiro */
+  label: string;
+};
 
 export const partners: Partner[] = [
   {
-    kind: "text",
-    highlight: "Agente Autônomo de Investimentos",
+    label: "XP Investimentos",
+    icon: {
+      src: "/parceiros/xp-logo.svg",
+      width: 30,
+      height: 28,
+      // selo branco com as letras vazadas: inverter destruiria o vazado
+      tint: "none",
+    },
+    titleLines: ["Agente Autônomo", "de Investimentos"],
     caption: "XP Investimentos",
   },
   {
-    kind: "logo",
-    src: "/parceiros/mont-logo.webp",
-    alt: "Mont Capital",
-    width: 147,
-    height: 48,
+    label: "Mont Capital",
+    icon: {
+      src: "/parceiros/mont-icon.webp",
+      width: 74,
+      height: 47,
+      tint: "invert",
+    },
+    titleLines: ["Mont"],
+    caption: "Capital",
   },
 ];
