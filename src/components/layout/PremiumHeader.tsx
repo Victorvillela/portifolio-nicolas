@@ -233,8 +233,12 @@ export function PremiumHeader() {
           </div>
 
           {/* ZONA 1 — reserva o espaço do emblema (que está em absolute) e
-              equilibra a zona 3, mantendo os links no centro real */}
-          <div className="flex-1" aria-hidden />
+              equilibra a zona 3, mantendo os links no centro real.
+              Abaixo de 1024px o CTA compacto vive na zona 3 e pode crescer
+              para dentro desta zona (flex-1 tem basis 0 e encolhe até
+              zero): o min-w reserva os 44px do emblema + folga, então o
+              botão nunca chega a encostar na logo, mesmo em 320px. */}
+          <div className="flex-1 max-lg:min-w-16" aria-hidden />
 
           {/* ZONA 2 — grupo ÚNICO de links, gap uniforme, centralizado.
               Some no hero (o emblema ocupa o centro) e abaixo de 1024px
@@ -266,15 +270,21 @@ export function PremiumHeader() {
             })}
           </nav>
 
-          {/* ZONA 3 — CTA (≥1024px) + hambúrguer (<1024px). O CTA usa a
-              mesma fronteira dos links: abaixo dela a barra fica só com
-              emblema e hambúrguer, e o CTA passa a viver dentro do menu.
-              O hambúrguer é o mesmo controle que fecha (vira X) e fica no
-              canto superior direito, ancorado pelo justify-end. */}
-          <div className="relative z-10 flex flex-1 items-center justify-end gap-4">
+          {/* ZONA 3 — CTA + hambúrguer (<1024px). O hambúrguer é o mesmo
+              controle que fecha (vira X) e fica no canto superior direito,
+              ancorado pelo justify-end; o CTA fica logo à esquerda dele,
+              entre a logo e o menu.
+
+              Abaixo de 1024px o CTA aparece numa versão compacta (fonte,
+              padding e tracking menores): no espaço que sobra entre o
+              emblema e o hambúrguer, o botão de desktop não caberia sem
+              disputar os dois. Enquanto o drawer está aberto ele some —
+              o painel já traz o mesmo CTA no fim da lista, e dois pills
+              verdes ao mesmo tempo na tela não fazem sentido. */}
+          <div className="relative z-10 flex flex-1 items-center justify-end gap-4 max-lg:gap-3">
             <PillButton
               href={site.scheduleUrl}
-              className="hidden px-5 py-2.5 lg:inline-flex"
+              className="px-5 py-2.5 max-lg:whitespace-nowrap max-lg:px-3 max-lg:py-1.5 max-lg:text-[0.6rem] max-lg:tracking-[0.14em] max-lg:group-data-[menu=open]/header:hidden lg:inline-flex"
             >
               {ctaLabels.header}
             </PillButton>

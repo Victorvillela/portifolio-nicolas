@@ -148,7 +148,14 @@ export function CinematicIntro() {
         ease: "none",
         scrollTrigger: {
           trigger: section,
-          start: "top top",
+          /* "bottom bottom" = o instante em que a base da seção (onde a
+             barra de métricas se apoia) alcança a base da tela. Quando o
+             hero tem exatamente 100svh isso é o mesmo ponto que
+             "top top" — desktop segue idêntico. No mobile, onde a seção
+             pode passar de uma tela, é o que impede a barra de já entrar
+             desbotada: ela só começa a esmaecer depois de aparecer
+             inteira. */
+          start: "bottom bottom",
           end: "+=320",
           scrub: true,
         },
@@ -180,7 +187,15 @@ export function CinematicIntro() {
       ref={sectionRef}
       id="inicio"
       aria-label="Introdução"
-      className="relative h-svh overflow-hidden"
+      /* ≥768px: altura travada em 1 viewport, como sempre foi.
+         <768px: min-h — o conteúdo do hero (título em clamp, dois botões
+         empilhados, três badges quebrando em várias linhas e a barra de
+         métricas em coluna) passa de 100svh numa tela estreita, e com
+         altura fixa o overflow-hidden cortava a base ("Clientes
+         atendidos" e as métricas seguintes). O overflow-hidden continua
+         aqui de propósito: quem ele precisa cortar é o fundo em
+         scale-110 do parallax, não o conteúdo. */
+      className="relative min-h-svh overflow-hidden md:h-svh"
     >
       <div
         ref={bgRef}
@@ -252,7 +267,7 @@ export function CinematicIntro() {
           .hero-fade-bottom) */}
       <div
         aria-hidden
-        className="hero-fade-bottom pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[38vh]"
+        className="hero-fade-bottom pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[38vh] max-md:h-[55vh]"
       />
 
       {/* marca d'água ultra sutil do símbolo NBM (briefing, FUNDO DO
@@ -281,7 +296,11 @@ export function CinematicIntro() {
       {/* Composição estilo Verso: conteúdo alinhado à esquerda, respiro
           generoso — título (valor em dourado), botões, badges, e a barra
           de métricas apoiada na área já 100% navy do degradê. */}
-      <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col px-6 pt-28 md:px-10">
+      {/* max-md:min-h-svh acompanha a seção: com a altura livre no mobile,
+          o h-full (percentual sobre altura auto) não vale mais nada, e é
+          o min-h daqui que garante o hero ocupando pelo menos uma tela
+          cheia — e o espaço livre que o my-auto abaixo distribui. */}
+      <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col px-6 pt-28 max-md:min-h-svh md:px-10">
         <div className="my-auto max-w-3xl">
           {/* três níveis: bold branco > bold prata > serifada itálica
               menor (~38% do título). clamp() mantém a hierarquia no
@@ -338,7 +357,13 @@ export function CinematicIntro() {
             Mesmos dados reais de data/metrics.ts usados na MetricsSection
             (regra do briefing: nada de números inventados). Esmaece ao
             rolar (tween do indicatorRef). */}
-        <div ref={indicatorRef} className="pointer-events-none pb-12">
+        {/* mobile: mt-10 separa o "+200" da lista de badges logo acima
+            (sem folga livre para o my-auto distribuir, os dois blocos
+            encostavam) e pb-16 devolve respiro na base da tela. */}
+        <div
+          ref={indicatorRef}
+          className="pointer-events-none pb-12 max-md:mt-10 max-md:pb-16"
+        >
           <dl className="flex flex-col gap-6 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/15">
             {metrics.map((metric, i) => (
               <div
