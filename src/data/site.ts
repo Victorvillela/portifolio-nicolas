@@ -62,10 +62,12 @@ export const site = {
   // TODO: substituir pelos vídeos reais gravados (placeholders não incluídos no repositório)
   heroVideoSrc: "/videos/hero-background.mp4",
 
-  // Relação institucional com a XP — apenas texto, nunca o logotipo oficial (briefing)
-  // TODO: validar redação exata com o compliance da XP
-  xpDisclosure:
-    "Escritório credenciado pela CVM vinculado à XP Investimentos CCTVM S.A.",
+  /* Linha de credenciamento — assina o rodapé da seção Parceiros, a seção
+     Sobre e o rodapé do site. A menção "vinculado à XP Investimentos
+     CCTVM S.A." saiu a pedido do cliente; o vínculo com a XP continua
+     declarado no lockup da própria seção Parceiros (data/partners.ts).
+     TODO: validar redação exata com o compliance. */
+  xpDisclosure: "Escritório credenciado pela CVM.",
 
   // Certificações — só aparecem se preenchidas com dados reais. Nunca inventar.
   // Exemplo de item: { label: "CEA", institution: "ANBIMA" }
