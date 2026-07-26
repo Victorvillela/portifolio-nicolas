@@ -65,7 +65,7 @@ export const site = {
   // Relação institucional com a XP — apenas texto, nunca o logotipo oficial (briefing)
   // TODO: validar redação exata com o compliance da XP
   xpDisclosure:
-    "Agente autônomo de investimentos vinculado à XP Investimentos CCTVM S.A.",
+    "Escritório credenciado pela CVM vinculado à XP Investimentos CCTVM S.A.",
 
   // Certificações — só aparecem se preenchidas com dados reais. Nunca inventar.
   // Exemplo de item: { label: "CEA", institution: "ANBIMA" }

@@ -43,7 +43,11 @@ export const partners: Partner[] = [
       // selo branco com as letras vazadas: inverter destruiria o vazado
       tint: "none",
     },
-    titleLines: ["Agente Autônomo", "de Investimentos"],
+    /* quebra pensada para o mobile: as linhas usam whitespace-nowrap, e
+       "ESCRITÓRIO CREDENCIADO" (214px em text-xs) não cabe nos 216px que
+       sobram ao lado do selo numa tela de 320px. Com a quebra depois de
+       "Escritório", a linha mais larga fica em 198px. */
+    titleLines: ["Escritório", "credenciado pela CVM"],
     caption: "XP Investimentos",
   },
   {
