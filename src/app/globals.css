@@ -40,11 +40,15 @@
   --color-accent-hover: #6cc26b;
   --color-accent-ink: #357a38;
 
-  /* -- CTA navy: botão principal do header e do hero de vídeo, trocado
-     de verde para o azul-marinho do logo (pedido do cliente) — texto
-     sempre branco (12.6:1, aprova com folga). -- */
-  --color-cta-navy: #003366;
-  --color-cta-navy-hover: #0a4a85;
+  /* -- CTA navy: todos os botões preenchidos (header, hero de vídeo,
+     seção institucional), trocados do verde para azul-marinho (pedido
+     do cliente) — texto sempre branco. Tom metálico/dessaturado (reusa
+     navy-elevated) de propósito: um azul mais "puro" como #003366
+     mudava de leitura entre o fundo fotográfico do hero e o fundo liso
+     da seção clara (contraste simultâneo); este tom mais neutro fica
+     igual nos dois contextos. -- */
+  --color-cta-navy: var(--color-navy-elevated);
+  --color-cta-navy-hover: var(--color-blue);
 
   /* -- dourado: exclusivo de números/estatísticas de destaque --
      gold/gold-deep valem sobre navy (8.04:1). Sobre fundo claro o par
