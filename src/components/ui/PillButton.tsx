@@ -7,15 +7,15 @@ const base =
   "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.7rem] font-medium uppercase tracking-[0.22em] transition-colors duration-300";
 
 /*
-  Verde = cor de AÇÃO em todo o site (mesma leitura de "clique aqui" em
-  qualquer seção). Todo preenchimento verde carrega texto NAVY: branco
-  sobre #5cb85c dá 2.48:1 e reprova; navy sobre o mesmo verde dá 7.04:1.
-  Secundários ficam na família azul da marca.
+  CTA primária (mesma nas duas polaridades): azul-marinho da marca
+  (--color-cta-navy) com texto branco — trocado do verde original a
+  pedido do cliente, para casar com o azul do logo.
 */
 const variants: Record<Variant, string> = {
-  // -- CTA primária (mesma nas duas polaridades) --
-  light: "bg-accent text-navy hover:bg-accent-hover",
-  navy: "bg-accent text-navy hover:bg-accent-hover",
+  // -- CTA primária, tema escuro (header, hero de vídeo) --
+  light: "bg-cta-navy text-white hover:bg-cta-navy-hover",
+  // -- CTA primária, tema claro (seção institucional) --
+  navy: "bg-cta-navy text-white hover:bg-cta-navy-hover",
   // -- secundárias, tema escuro (borda prata 1px, fundo transparente) --
   outline:
     "border border-fog/50 text-fog hover:border-fog/80 hover:bg-fog/5",

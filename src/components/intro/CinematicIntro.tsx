@@ -334,7 +334,9 @@ export function CinematicIntro() {
             </PillButton>
           </div>
 
-          {/* badges de destaque — discretos, marcador verde da marca */}
+          {/* badges de destaque — discretos, marcador azul da marca (o
+              cta-navy dos botões some sobre o fundo escuro do hero;
+              blue-light mantém a mesma família com contraste visível) */}
           <ul className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3">
             {site.heroBadges.map((badge) => (
               <li
@@ -343,7 +345,7 @@ export function CinematicIntro() {
               >
                 <span
                   aria-hidden
-                  className="h-1.5 w-1.5 rounded-full bg-accent"
+                  className="h-1.5 w-1.5 rounded-full bg-blue-light"
                 />
                 {badge}
               </li>
