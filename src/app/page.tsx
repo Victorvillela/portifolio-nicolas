@@ -7,10 +7,37 @@ import { ServicesSection } from "@/components/home/ServicesSection";
 import { AboutSection } from "@/components/home/AboutSection";
 import { FinalWealthCore } from "@/components/home/FinalWealthCore";
 import { FAQSection } from "@/components/home/FAQSection";
+import { faq } from "@/data/faq";
+
+/*
+  FAQPage (schema.org) — mesmo conteúdo de data/faq.ts, já aprovado
+  pelo cliente. Permite ao Google exibir as perguntas expandidas
+  direto no resultado de busca (rich snippet).
+*/
+function dadosEstruturadosFaq() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(dadosEstruturadosFaq()),
+        }}
+      />
       {/* ATO 01 — hero de vídeo (navy do início ao fim; a virada para o
           tema claro acontece direto na borda com o InstitutionalHero) */}
       <CinematicIntro />

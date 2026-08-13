@@ -29,7 +29,7 @@ export const site = {
   // TODO: confirmar o título profissional correto conforme registro/atuação real
   role: "Consultor de investimentos · NBM Consultoria",
   headline:
-    "Consultoria estratégica para quem quer tomar decisões financeiras com mais clareza, inteligência e visão de longo prazo.",
+    "Consultoria financeira estratégica para quem quer tomar decisões com mais clareza, inteligência e visão de longo prazo sobre o seu patrimônio.",
 
   // Título do hero de vídeo, em três níveis tipográficos (bold branco /
   // bold prata / serifada itálica menor — ver CinematicIntro)
