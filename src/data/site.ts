@@ -53,10 +53,9 @@ export const site = {
   instagram: "https://www.instagram.com/nbmconsultoria/",
   // handle público real da NBM
   facebook: "https://www.facebook.com/nbmfinanceira",
-  // TODO: nenhum número comercial informado ainda — preencher para exibir no footer
-  whatsapp: "",
+  whatsapp: "https://wa.me/5511953336627",
   scheduleUrl:
-    "https://wa.me/5511958286933?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20conversa%20para%20construir%20a%20estrat%C3%A9gia%20do%20meu%20patrim%C3%B4nio",
+    "https://wa.me/5511953336627?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20conversa%20para%20construir%20a%20estrat%C3%A9gia%20do%20meu%20patrim%C3%B4nio",
 
   // Vídeos — podem apontar para o mesmo arquivo ou arquivos diferentes (briefing, Atos 05 e 07)
   // TODO: substituir pelos vídeos reais gravados (placeholders não incluídos no repositório)
