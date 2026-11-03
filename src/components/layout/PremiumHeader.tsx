@@ -282,6 +282,15 @@ export function PremiumHeader() {
               o painel já traz o mesmo CTA no fim da lista, e dois pills
               verdes ao mesmo tempo na tela não fazem sentido. */}
           <div className="relative z-10 flex flex-1 items-center justify-end gap-4 max-lg:gap-3">
+            {/* Consórcios: só no desktop — abaixo de 1024px não cabe ao lado
+                do CTA compacto; no mobile ele aparece dentro do drawer. */}
+            <PillButton
+              href={site.consorcioUrl}
+              variant="outline"
+              className="hidden px-5 py-2.5 lg:inline-flex"
+            >
+              {ctaLabels.consorcio}
+            </PillButton>
             <PillButton
               href={site.scheduleUrl}
               className="px-5 py-2.5 max-lg:whitespace-nowrap max-lg:px-3 max-lg:py-1.5 max-lg:text-[0.6rem] max-lg:tracking-[0.14em] max-lg:group-data-[menu=open]/header:hidden lg:inline-flex"
@@ -360,6 +369,14 @@ export function PremiumHeader() {
           onClick={() => setMenuOpen(false)}
         >
           {ctaLabels.header}
+        </PillButton>
+        <PillButton
+          href={site.consorcioUrl}
+          variant="outline"
+          className="-mt-4"
+          onClick={() => setMenuOpen(false)}
+        >
+          {ctaLabels.consorcio}
         </PillButton>
       </div>
     </>

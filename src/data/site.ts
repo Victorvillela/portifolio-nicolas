@@ -56,6 +56,9 @@ export const site = {
   whatsapp: "https://wa.me/5511953336627",
   scheduleUrl:
     "https://wa.me/5511953336627?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20conversa%20para%20construir%20a%20estrat%C3%A9gia%20do%20meu%20patrim%C3%B4nio",
+  // mesmo WhatsApp, com mensagem pronta sobre o Consórcio NBM
+  consorcioUrl:
+    "https://wa.me/5511953336627?text=Ol%C3%A1!%20Quero%20conhecer%20mais%20sobre%20o%20Cons%C3%B3rcio%20NBM",
 
   // Vídeos — podem apontar para o mesmo arquivo ou arquivos diferentes (briefing, Atos 05 e 07)
   // TODO: substituir pelos vídeos reais gravados (placeholders não incluídos no repositório)
@@ -127,6 +130,7 @@ export const footerNav = [
 
 export const ctaLabels = {
   header: "Agendar conversa",
+  consorcio: "Consórcios NBM",
   heroPrimary: "Agendar uma conversa",
   heroOutline: "Seja cliente",
   heroSecondary: "Conhecer a estratégia",
