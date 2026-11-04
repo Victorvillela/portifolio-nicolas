@@ -129,10 +129,9 @@ export const footerNav = [
 ] as const;
 
 export const ctaLabels = {
-  header: "Agendar conversa",
+  header: "Invista conosco",
   consorcio: "Consórcios NBM",
   heroPrimary: "Agendar uma conversa",
-  heroOutline: "Seja cliente",
   heroSecondary: "Conhecer a estratégia",
   final: "Construir minha estratégia",
 } as const;

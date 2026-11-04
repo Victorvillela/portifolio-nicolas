@@ -4,9 +4,14 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/animations/gsap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { ctaLabels, site } from "@/data/site";
+import { site } from "@/data/site";
 import { metrics } from "@/data/metrics";
 import { PillButton } from "@/components/ui/PillButton";
+import {
+  SERVICE_PANEL_ID,
+  ServiceTabList,
+  useActiveService,
+} from "@/components/home/ServiceTabs";
 
 /*
   ATO 01 — hero: vídeo de fundo (mudo) + overlay navy + headline.
@@ -45,6 +50,7 @@ export function CinematicIntro() {
   const indicatorRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const [videoMissing, setVideoMissing] = useState(false);
+  const active = useActiveService();
 
   /*
     Revezamento A/B. Toda a manipulação é feita direto no DOM via refs:
@@ -187,15 +193,13 @@ export function CinematicIntro() {
       ref={sectionRef}
       id="inicio"
       aria-label="Introdução"
-      /* ≥768px: altura travada em 1 viewport, como sempre foi.
-         <768px: min-h — o conteúdo do hero (título em clamp, dois botões
-         empilhados, três badges quebrando em várias linhas e a barra de
-         métricas em coluna) passa de 100svh numa tela estreita, e com
-         altura fixa o overflow-hidden cortava a base ("Clientes
-         atendidos" e as métricas seguintes). O overflow-hidden continua
-         aqui de propósito: quem ele precisa cortar é o fundo em
-         scale-110 do parallax, não o conteúdo. */
-      className="relative min-h-svh overflow-hidden md:h-svh"
+      /* min-h em vez de altura fixa: o conteúdo do hero (abas, título em
+         clamp, badges e barra de métricas) pode passar de 100svh em telas
+         estreitas ou baixas, e com altura fixa o overflow-hidden cortava
+         a base. O overflow-hidden continua aqui de propósito: quem ele
+         precisa cortar é o fundo em scale-110 do parallax, não o
+         conteúdo. */
+      className="relative min-h-svh overflow-hidden"
     >
       <div
         ref={bgRef}
@@ -296,12 +300,18 @@ export function CinematicIntro() {
       {/* Composição estilo Verso: conteúdo alinhado à esquerda, respiro
           generoso — título (valor em dourado), botões, badges, e a barra
           de métricas apoiada na área já 100% navy do degradê. */}
-      {/* max-md:min-h-svh acompanha a seção: com a altura livre no mobile,
-          o h-full (percentual sobre altura auto) não vale mais nada, e é
-          o min-h daqui que garante o hero ocupando pelo menos uma tela
-          cheia — e o espaço livre que o my-auto abaixo distribui. */}
-      <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col px-6 pt-28 max-md:min-h-svh md:px-10">
+      {/* min-h-svh acompanha a seção: é ele que garante o hero ocupando
+          pelo menos uma tela cheia — e o espaço livre que o my-auto abaixo
+          distribui. */}
+      <div className="relative z-10 mx-auto flex min-h-svh max-w-6xl flex-col px-6 pt-28 md:px-10">
         <div className="my-auto max-w-3xl">
+          <ServiceTabList />
+          <div
+            role="tabpanel"
+            id={SERVICE_PANEL_ID}
+            aria-labelledby={`aba-${active.id}`}
+            className="mt-10"
+          >
           {/* três níveis: bold branco > bold prata > serifada itálica
               menor (~38% do título). clamp() mantém a hierarquia no
               mobile sem quebrar o alinhamento à esquerda. */}
@@ -309,28 +319,20 @@ export function CinematicIntro() {
             className="font-bold leading-[1.08] tracking-tight"
             style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
           >
-            <span className="block text-fog">{site.heroTitle.line1}</span>
-            <span className="block text-silver">{site.heroTitle.line2}</span>
+            <span className="block text-fog">{active.title.line1}</span>
+            <span className="block text-silver">{active.title.line2}</span>
           </h1>
           <p
             className="mt-7 font-serif italic text-silver/85"
             style={{ fontSize: "clamp(1.1rem, 2.3vw, 1.7rem)" }}
           >
-            {site.heroTitle.line3}
+            {active.title.line3}
           </p>
 
-          {/* outline (borda prata) + CTA verde preenchido, lado a lado;
-              empilham em full-width no mobile */}
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <PillButton
-              href={site.scheduleUrl}
-              variant="outline"
-              className="w-full sm:w-auto"
-            >
-              {ctaLabels.heroOutline}
-            </PillButton>
-            <PillButton href={site.scheduleUrl} className="w-full sm:w-auto">
-              {ctaLabels.heroPrimary}
+          {/* um único próximo passo por serviço; full-width no mobile */}
+          <div className="mt-12">
+            <PillButton href={active.cta.href} className="w-full sm:w-auto">
+              {active.cta.label}
             </PillButton>
           </div>
 
@@ -338,7 +340,7 @@ export function CinematicIntro() {
               cta-navy dos botões some sobre o fundo escuro do hero;
               blue-light mantém a mesma família com contraste visível) */}
           <ul className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3">
-            {site.heroBadges.map((badge) => (
+            {active.badges.map((badge) => (
               <li
                 key={badge}
                 className="flex items-center gap-2.5 text-[0.7rem] uppercase tracking-[0.18em] text-silver/90"
@@ -351,6 +353,7 @@ export function CinematicIntro() {
               </li>
             ))}
           </ul>
+          </div>
         </div>
 
         {/* Barra de métricas (ref. Verso): números dourados + label prata

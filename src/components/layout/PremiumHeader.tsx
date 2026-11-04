@@ -27,7 +27,7 @@ const ID_MENU_MOBILE = "menu-mobile";
     - hero  → grande e centralizado, links ocultos (momento de marca)
     - resto → retraído à esquerda, os 4 links revelados no centro
   A fronteira entre os dois é a mesma que troca o tema do header
-  ([data-theme-boundary], ver InstitutionalHero), então logo, links e
+  ([data-theme-boundary], ver ServiceDetails), então logo, links e
   fundo navy mudam todos no mesmo ponto.
 */
 export function PremiumHeader() {
@@ -45,7 +45,7 @@ export function PremiumHeader() {
     let lastScrolled: boolean | null = null;
     let lastTheme: string | null = null;
     // posição onde o conteúdo claro começa ([data-theme-boundary], ver
-    // InstitutionalHero — primeira seção clara após o hero navy) —
+    // ServiceDetails — primeira seção clara após o hero navy) —
     // medida uma vez e no resize, nunca por frame de scroll
     let lightBoundary = Infinity;
 
