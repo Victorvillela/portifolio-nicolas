@@ -132,6 +132,7 @@ export const ctaLabels = {
   header: "Invista conosco",
   consorcio: "Consórcios NBM",
   heroPrimary: "Agendar uma conversa",
+  heroOutline: "Seja cliente",
   heroSecondary: "Conhecer a estratégia",
   final: "Construir minha estratégia",
 } as const;

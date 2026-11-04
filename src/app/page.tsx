@@ -1,6 +1,4 @@
 import { CinematicIntro } from "@/components/intro/CinematicIntro";
-import { ServiceTabsProvider } from "@/components/home/ServiceTabs";
-import { ServiceDetails } from "@/components/home/ServiceDetails";
 import { InstitutionalHero } from "@/components/home/InstitutionalHero";
 import { PartnersMarquee } from "@/components/home/PartnersMarquee";
 import { MetricsSection } from "@/components/home/MetricsSection";
@@ -41,11 +39,8 @@ export default function Home() {
         }}
       />
       {/* ATO 01 — hero de vídeo (navy do início ao fim; a virada para o
-          tema claro acontece direto na borda com a ServiceDetails) */}
-      <ServiceTabsProvider>
-        <CinematicIntro />
-        <ServiceDetails />
-      </ServiceTabsProvider>
+          tema claro acontece direto na borda com o InstitutionalHero) */}
+      <CinematicIntro />
 
       <InstitutionalHero />
       <PartnersMarquee />
