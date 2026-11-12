@@ -11,7 +11,11 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
   MethodologySection). Respostas com placeholder [TODO: ...] não podem
   ser preenchidas com suposição — ver aviso de compliance em data/faq.ts.
 */
-type FAQItem = { question: string; answer: string };
+type FAQItem = {
+  question: string;
+  answer: string;
+  link?: { href: string; label: string };
+};
 
 /* items/id/título opcionais: a página /consorcios reusa o mesmo acordeão
    com as próprias perguntas. Sem props, é o FAQ da home. */
@@ -73,6 +77,16 @@ export function FAQSection({
                     <p className="max-w-xl pb-6 text-sm leading-[1.7] text-navy-text/80">
                       {item.answer}
                     </p>
+                    {item.link && (
+                      <a
+                        href={item.link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="-mt-2 mb-6 inline-block text-[0.7rem] font-medium uppercase tracking-[0.22em] text-blue transition-colors hover:text-blue-light"
+                      >
+                        {item.link.label}
+                      </a>
+                    )}
                   </div>
                 </div>
               </li>

@@ -7,6 +7,7 @@ import { ServicesSection } from "@/components/home/ServicesSection";
 import { AboutSection } from "@/components/home/AboutSection";
 import { FinalWealthCore } from "@/components/home/FinalWealthCore";
 import { FAQSection } from "@/components/home/FAQSection";
+import { ConsorcioConvite } from "@/components/home/ConsorcioConvite";
 import { faq } from "@/data/faq";
 
 /*
@@ -52,6 +53,9 @@ export default function Home() {
           Serviços entra na sequência como a demonstração prática dela. */}
       <AboutSection />
       <ServicesSection />
+      {/* convite para a marca irmã — depois do método e dos serviços,
+          antes das dúvidas */}
+      <ConsorcioConvite />
       <FAQSection />
       <FinalWealthCore />
     </>

@@ -136,6 +136,7 @@ export const footerNav = [
   { label: "Serviços", href: "#servicos" },
   { label: "FAQ", href: "#faq" },
   { label: "Contato", href: "#contato" },
+  { label: "NBM Consórcios", href: "/consorcios" },
 ] as const;
 
 export const ctaLabels = {

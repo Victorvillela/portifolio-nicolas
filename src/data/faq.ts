@@ -11,6 +11,8 @@
 export type FaqItem = {
   question: string;
   answer: string;
+  /* link opcional exibido ao fim da resposta (não entra no schema) */
+  link?: { href: string; label: string };
 };
 
 export const faq: FaqItem[] = [
@@ -33,5 +35,15 @@ export const faq: FaqItem[] = [
     question: "Como funciona o acompanhamento depois que me torno cliente?",
     answer:
       "O relacionamento não termina após a contratação. Realizamos acompanhamento contínuo da carteira, revisões periódicas da estratégia e ajustes sempre que houver mudanças no mercado ou nos objetivos do cliente, garantindo que seu patrimônio permaneça alinhado ao seu planejamento financeiro.",
+  },
+  /* Separação das marcas (aprovado pelo cliente, 2026-11-12): consultoria
+     de investimentos (CVM) e consórcio (Banco Central) são atividades
+     distintas — a resposta não pode sugerir que o consórcio é um serviço
+     da consultoria. */
+  {
+    question: "A NBM Consultoria também trabalha com consórcio?",
+    answer:
+      "Não. O consórcio não faz parte da consultoria de investimentos. Ele é oferecido pela NBM Consórcios, uma marca separada, com página e condições próprias. Se o seu objetivo é comprar um imóvel, um veículo ou expandir a sua empresa sem pagar juros, conheça a NBM Consórcios.",
+    link: { href: "/consorcios", label: "Conhecer a NBM Consórcios →" },
   },
 ];
