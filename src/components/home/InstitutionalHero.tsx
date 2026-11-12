@@ -1,7 +1,5 @@
 import { Container } from "@/components/ui/Container";
-import { PillButton } from "@/components/ui/PillButton";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { ctaLabels, site } from "@/data/site";
 
 /*
   HOME institucional — hero (briefing): coluna única, texto centrado no
@@ -37,17 +35,6 @@ export function InstitutionalHero() {
             objetivos em decisões estruturadas, com o suporte da rede XP
             Investimentos.
           </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <PillButton href="#servicos" variant="outline-navy">
-              {ctaLabels.heroSecondary}
-            </PillButton>
-            <PillButton href={site.scheduleUrl} variant="navy">
-              {ctaLabels.heroPrimary}
-            </PillButton>
-            <PillButton href={site.consorcioPage} newTab variant="outline-navy">
-              {ctaLabels.consorcio}
-            </PillButton>
-          </div>
         </div>
       </Container>
     </section>
