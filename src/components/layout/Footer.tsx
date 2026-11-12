@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { footerNav, site } from "@/data/site";
 import { Container } from "@/components/ui/Container";
+import { SiteAnchorLink } from "@/components/ui/SiteAnchorLink";
 
 /* Ícones sociais inline (sem lib de ícones): prata, hover azul claro. */
 const socialIconClass =
@@ -66,13 +66,13 @@ export function Footer() {
           <nav aria-label="Navegação do rodapé" className="flex flex-col gap-3">
             <p className="eyebrow mb-2">Navegação</p>
             {footerNav.map((item) => (
-              <Link
+              <SiteAnchorLink
                 key={item.href}
                 href={item.href}
                 className="w-fit text-sm text-ash transition-colors hover:text-fog"
               >
                 {item.label}
-              </Link>
+              </SiteAnchorLink>
             ))}
           </nav>
 

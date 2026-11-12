@@ -32,6 +32,7 @@ export function PillButton({
   className = "",
   ariaLabel,
   onClick,
+  newTab = false,
 }: {
   href: string;
   children: ReactNode;
@@ -40,15 +41,18 @@ export function PillButton({
   ariaLabel?: string;
   /* usado, p.ex., para fechar o menu mobile ao navegar */
   onClick?: () => void;
+  /* força nova aba também em link interno (ex.: página de consórcios) */
+  newTab?: boolean;
 }) {
   const isExternal = /^https?:\/\//.test(href);
+  const blank = isExternal || newTab;
   return (
     <Link
       href={href}
       aria-label={ariaLabel}
       onClick={onClick}
-      target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noopener noreferrer" : undefined}
+      target={blank ? "_blank" : undefined}
+      rel={blank ? "noopener noreferrer" : undefined}
       className={`${base} ${variants[variant]} ${className}`}
     >
       {children}

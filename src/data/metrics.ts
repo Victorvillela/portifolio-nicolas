@@ -9,7 +9,7 @@ export type Metric = {
 };
 
 export const metrics: Metric[] = [
-  { value: "+200", label: "Clientes atendidos", isPlaceholder: false },
-  { value: "R$ 70M", label: "Patrimônio sob gestão", isPlaceholder: false },
-  { value: "5 anos", label: "Experiência de mercado", isPlaceholder: false },
+  { value: "+300", label: "Clientes atendidos", isPlaceholder: false },
+  { value: "R$ 100M", label: "Patrimônio sob gestão", isPlaceholder: false },
+  { value: "8 anos", label: "Experiência de mercado", isPlaceholder: false },
 ];

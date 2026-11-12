@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { headerNav, site, ctaLabels } from "@/data/site";
+import { headerNav, consorcioNav, site, ctaLabels } from "@/data/site";
 import { PillButton } from "@/components/ui/PillButton";
 import { useLenis } from "@/components/providers/SmoothScrollProvider";
+import { useAnchorHref } from "@/components/ui/SiteAnchorLink";
 
 /* id do drawer — liga o botão hambúrguer ao painel via aria-controls */
 const ID_MENU_MOBILE = "menu-mobile";
@@ -36,6 +38,24 @@ export function PremiumHeader() {
   const [expanded, setExpanded] = useState(true);
   const [activeHref, setActiveHref] = useState<string>(headerNav[0].href);
   const lenis = useLenis();
+  // fora da home, âncoras viram "/#secao" (ver SiteAnchorLink)
+  const anchorHref = useAnchorHref();
+  /*
+    Duas versões do header, pela rota:
+      - home        → menu institucional + "Invista conosco"
+      - /consorcios → menu da própria página + "Falar com especialista"
+                      e um atalho de volta para a NBM Consultoria
+    O link ativo vale nas duas (as seções do menu moram na própria página).
+  */
+  const pathname = usePathname();
+  const onConsorcio = pathname.startsWith("/consorcios");
+  const onHome = pathname === "/" || onConsorcio;
+  const nav = onConsorcio ? consorcioNav : headerNav;
+  // no consórcio as âncoras são da própria página: sem prefixo "/"
+  const navHref = (href: string) => (onConsorcio ? href : anchorHref(href));
+  const cta = onConsorcio
+    ? { href: site.consorcioWhatsapp, label: ctaLabels.consorcioHeader }
+    : { href: site.scheduleUrl, label: ctaLabels.header };
 
   useEffect(() => {
     const el = headerRef.current;
@@ -110,7 +130,7 @@ export function PremiumHeader() {
     a troca acontecer quando a seção realmente assume a tela.
   */
   useEffect(() => {
-    const sections = headerNav
+    const sections = nav
       .map((item) => document.querySelector(item.href))
       .filter((el): el is Element => el !== null);
     if (!sections.length) return;
@@ -123,7 +143,7 @@ export function PremiumHeader() {
           if (entry.isIntersecting) visible.add(href);
           else visible.delete(href);
         }
-        const next = headerNav.find((item) => visible.has(item.href));
+        const next = nav.find((item) => visible.has(item.href));
         if (next) setActiveHref(next.href);
       },
       { rootMargin: "-80px 0px -55% 0px" },
@@ -131,7 +151,7 @@ export function PremiumHeader() {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [nav]);
 
   /*
     Menu aberto trava o fundo. Duas travas porque há dois donos possíveis
@@ -216,8 +236,10 @@ export function PremiumHeader() {
             {/* clicar leva ao topo (#inicio) e o próprio scroll re-expande
                 o emblema — sem segundo dono do estado */}
             <Link
-              href="#inicio"
-              aria-label={site.brandMark}
+              href={onConsorcio ? "/" : anchorHref("#inicio")}
+              aria-label={
+                onConsorcio ? `Voltar para ${site.brandMark}` : site.brandMark
+              }
               onClick={() => setMenuOpen(false)}
               className="flex h-full w-full items-center justify-center transition-opacity hover:opacity-85"
             >
@@ -238,7 +260,25 @@ export function PremiumHeader() {
               para dentro desta zona (flex-1 tem basis 0 e encolhe até
               zero): o min-w reserva os 44px do emblema + folga, então o
               botão nunca chega a encostar na logo, mesmo em 320px. */}
-          <div className="flex-1 max-lg:min-w-16" aria-hidden />
+          {/* Em /consorcios esta zona leva o "voltar" para a página do
+              Nicolas (só desktop — no mobile ele fica no drawer). O
+              padding/transição acompanham o emblema: recolhido à
+              esquerda, o link começa depois dele; expandido no centro, o
+              link fica no canto. */}
+          {onConsorcio ? (
+            <div className="flex-1 max-lg:min-w-16">
+              <Link
+                href="/"
+                className={`hidden w-fit items-center gap-2 whitespace-nowrap text-[0.66rem] font-medium uppercase tracking-[0.24em] text-fog/70 transition-all duration-500 hover:text-fog lg:inline-flex ${
+                  expanded ? "pl-0" : "pl-16"
+                }`}
+              >
+                <span aria-hidden>←</span> {ctaLabels.voltarConsultoria}
+              </Link>
+            </div>
+          ) : (
+            <div className="flex-1 max-lg:min-w-16" aria-hidden />
+          )}
 
           {/* ZONA 2 — grupo ÚNICO de links, gap uniforme, centralizado.
               Some no hero (o emblema ocupa o centro) e abaixo de 1024px
@@ -251,12 +291,12 @@ export function PremiumHeader() {
                 : "translate-y-0 opacity-100"
             }`}
           >
-            {headerNav.map((item) => {
-              const active = activeHref === item.href;
+            {nav.map((item) => {
+              const active = onHome && activeHref === item.href;
               return (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={navHref(item.href)}
                   aria-current={active ? "true" : undefined}
                   className={`${navLinkClass} ${
                     active ? "text-fog" : "text-fog/70 hover:text-fog"
@@ -282,20 +322,11 @@ export function PremiumHeader() {
               o painel já traz o mesmo CTA no fim da lista, e dois pills
               verdes ao mesmo tempo na tela não fazem sentido. */}
           <div className="relative z-10 flex flex-1 items-center justify-end gap-4 max-lg:gap-3">
-            {/* Consórcios: só no desktop — abaixo de 1024px não cabe ao lado
-                do CTA compacto; no mobile ele aparece dentro do drawer. */}
             <PillButton
-              href={site.consorcioUrl}
-              variant="outline"
-              className="hidden px-5 py-2.5 lg:inline-flex"
+              href={cta.href}
+              className="whitespace-nowrap px-5 py-2.5 max-lg:px-3 max-lg:py-1.5 max-lg:text-[0.6rem] max-lg:tracking-[0.14em] max-lg:group-data-[menu=open]/header:hidden lg:inline-flex"
             >
-              {ctaLabels.consorcio}
-            </PillButton>
-            <PillButton
-              href={site.scheduleUrl}
-              className="px-5 py-2.5 max-lg:whitespace-nowrap max-lg:px-3 max-lg:py-1.5 max-lg:text-[0.6rem] max-lg:tracking-[0.14em] max-lg:group-data-[menu=open]/header:hidden lg:inline-flex"
-            >
-              {ctaLabels.header}
+              {cta.label}
             </PillButton>
 
             <button
@@ -348,14 +379,14 @@ export function PremiumHeader() {
           menuOpen ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        {headerNav.map((item) => (
+        {nav.map((item) => (
           <Link
             key={item.href}
-            href={item.href}
+            href={navHref(item.href)}
             onClick={() => setMenuOpen(false)}
-            aria-current={activeHref === item.href ? "true" : undefined}
+            aria-current={onHome && activeHref === item.href ? "true" : undefined}
             className={`font-serif text-3xl transition-colors ${
-              activeHref === item.href
+              onHome && activeHref === item.href
                 ? "text-accent"
                 : "text-fog/90 hover:text-fog"
             }`}
@@ -364,20 +395,32 @@ export function PremiumHeader() {
           </Link>
         ))}
         <PillButton
-          href={site.scheduleUrl}
+          href={cta.href}
           className="mt-4"
           onClick={() => setMenuOpen(false)}
         >
-          {ctaLabels.header}
+          {cta.label}
         </PillButton>
-        <PillButton
-          href={site.consorcioUrl}
-          variant="outline"
-          className="-mt-4"
-          onClick={() => setMenuOpen(false)}
-        >
-          {ctaLabels.consorcio}
-        </PillButton>
+        {onConsorcio ? (
+          <PillButton
+            href="/"
+            variant="outline"
+            className="-mt-4"
+            onClick={() => setMenuOpen(false)}
+          >
+            ← Voltar para {ctaLabels.voltarConsultoria}
+          </PillButton>
+        ) : (
+          <PillButton
+            href={site.consorcioPage}
+            newTab
+            variant="outline"
+            className="-mt-4"
+            onClick={() => setMenuOpen(false)}
+          >
+            {ctaLabels.consorcio}
+          </PillButton>
+        )}
       </div>
     </>
   );

@@ -56,8 +56,10 @@ export const site = {
   whatsapp: "https://wa.me/5511953336627",
   scheduleUrl:
     "https://wa.me/5511953336627?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20conversa%20para%20construir%20a%20estrat%C3%A9gia%20do%20meu%20patrim%C3%B4nio",
+  // página própria do NBM Consórcios (abre em nova aba)
+  consorcioPage: "/consorcios",
   // mesmo WhatsApp, com mensagem pronta sobre o Consórcio NBM
-  consorcioUrl:
+  consorcioWhatsapp:
     "https://wa.me/5511953336627?text=Ol%C3%A1!%20Quero%20conhecer%20mais%20sobre%20o%20Cons%C3%B3rcio%20NBM",
 
   // Vídeos — podem apontar para o mesmo arquivo ou arquivos diferentes (briefing, Atos 05 e 07)
@@ -118,6 +120,14 @@ export const headerNav = [
   { label: "FAQ", href: "#faq" },
 ] as const;
 
+/* Header da página NBM Consórcios (/consorcios): âncoras da própria
+   página, no lugar do menu institucional. */
+export const consorcioNav = [
+  { label: "Simulador", href: "#simulador" },
+  { label: "Como funciona", href: "#como-funciona" },
+  { label: "FAQ", href: "#faq-consorcio" },
+] as const;
+
 /* Mapa completo do site — usado no footer, que pode ser mais extenso
    que o header enxuto. */
 export const footerNav = [
@@ -131,6 +141,9 @@ export const footerNav = [
 export const ctaLabels = {
   header: "Invista conosco",
   consorcio: "Consórcios NBM",
+  // header da página /consorcios
+  consorcioHeader: "Falar com especialista",
+  voltarConsultoria: "NBM Consultoria",
   heroPrimary: "Agendar uma conversa",
   heroOutline: "Seja cliente",
   heroSecondary: "Conhecer a estratégia",

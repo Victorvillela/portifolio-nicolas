@@ -319,23 +319,27 @@ export function CinematicIntro() {
             {site.heroTitle.line3}
           </p>
 
-          {/* outline (borda prata) + CTA verde preenchido, lado a lado;
-              empilham em full-width no mobile */}
+          {/* Desktop (sm+): uma linha só, com a CTA principal no MEIO
+              (order). Mobile: empilhados, CTA principal primeiro. */}
           <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
             <PillButton
               href={site.scheduleUrl}
-              variant="outline"
-              className="w-full sm:w-auto"
+              className="w-full sm:order-2 sm:w-auto"
             >
-              {ctaLabels.heroOutline}
-            </PillButton>
-            <PillButton href={site.scheduleUrl} className="w-full sm:w-auto">
               {ctaLabels.heroPrimary}
             </PillButton>
             <PillButton
-              href={site.consorcioUrl}
+              href={site.scheduleUrl}
               variant="outline"
-              className="w-full sm:w-auto"
+              className="w-full sm:order-1 sm:w-auto"
+            >
+              {ctaLabels.heroOutline}
+            </PillButton>
+            <PillButton
+              href={site.consorcioPage}
+              newTab
+              variant="outline"
+              className="w-full sm:order-3 sm:w-auto"
             >
               {ctaLabels.consorcio}
             </PillButton>

@@ -38,13 +38,13 @@ export function InstitutionalHero() {
             Investimentos.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
-            <PillButton href={site.scheduleUrl} variant="navy">
-              {ctaLabels.heroPrimary}
-            </PillButton>
             <PillButton href="#servicos" variant="outline-navy">
               {ctaLabels.heroSecondary}
             </PillButton>
-            <PillButton href={site.consorcioUrl} variant="outline-navy">
+            <PillButton href={site.scheduleUrl} variant="navy">
+              {ctaLabels.heroPrimary}
+            </PillButton>
+            <PillButton href={site.consorcioPage} newTab variant="outline-navy">
               {ctaLabels.consorcio}
             </PillButton>
           </div>

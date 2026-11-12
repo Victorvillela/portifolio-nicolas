@@ -11,26 +11,40 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
   MethodologySection). Respostas com placeholder [TODO: ...] não podem
   ser preenchidas com suposição — ver aviso de compliance em data/faq.ts.
 */
-export function FAQSection() {
+type FAQItem = { question: string; answer: string };
+
+/* items/id/título opcionais: a página /consorcios reusa o mesmo acordeão
+   com as próprias perguntas. Sem props, é o FAQ da home. */
+export function FAQSection({
+  items = faq,
+  id = "faq",
+  titulo = "Antes de conversar,",
+  tituloDestaque = "algumas respostas diretas.",
+}: {
+  items?: readonly FAQItem[];
+  id?: string;
+  titulo?: string;
+  tituloDestaque?: string;
+} = {}) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <section
-      id="faq"
+      id={id}
       aria-label="Perguntas frequentes"
       className="bg-pale-gradient hairline-light-t py-28 md:py-40"
     >
       <Container className="max-w-3xl">
         <SectionLabel className="eyebrow-light">Perguntas frequentes</SectionLabel>
         <h2 className="mt-8 max-w-2xl text-4xl font-medium leading-tight tracking-tight text-navy-text md:text-5xl">
-          Antes de conversar,{" "}
+          {titulo}{" "}
           <span className="font-serif italic text-bronze">
-            algumas respostas diretas.
+            {tituloDestaque}
           </span>
         </h2>
 
         <ul className="mt-16 flex flex-col">
-          {faq.map((item, i) => {
+          {items.map((item, i) => {
             const open = openIndex === i;
             return (
               <li key={item.question} className="border-t border-blue/15">
