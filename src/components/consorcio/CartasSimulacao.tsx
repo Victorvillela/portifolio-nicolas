@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { plano } from "@/data/consorcio";
 import { brl, brlCentavos, simular } from "@/lib/simulacao";
-import { ValorBorrado } from "./ValorBorrado";
 
 /*
   Baralho de simulações do hero de /consorcios.
@@ -175,20 +174,11 @@ function Carta({
 
       <div className="hairline-t mt-6 pt-6">
         <p className="text-sm text-silver">Parcela antes da contemplação</p>
-        {/* parcelas borradas: o valor certo é o do simulador (o baralho
-            inteiro já é link para ele) */}
         <p className="mt-2 text-sm text-ash">
-          De:{" "}
-          <ValorBorrado>
-            <s>{brlCentavos(r.parcelaCheia)}</s>
-          </ValorBorrado>
+          De: <s>{brlCentavos(r.parcelaCheia)}</s>
         </p>
-        {/* stat-gold DENTRO do borrão: o dourado é background-clip:text,
-            pintado no próprio elemento — no <p> de fora o blur não o pegava */}
         <p className="mt-1 font-serif text-5xl md:text-6xl">
-          <ValorBorrado>
-            <span className="stat-gold">{brlCentavos(r.parcelaReduzida)}</span>
-          </ValorBorrado>
+          <span className="stat-gold">{brlCentavos(r.parcelaReduzida)}</span>
         </p>
         <p className="mt-3 text-[0.62rem] font-medium uppercase tracking-[0.24em] text-blue-light">
           Veja o valor da parcela que cabe no seu orçamento →
@@ -199,13 +189,13 @@ function Carta({
         <div>
           <dt className="text-sm text-silver">Após a contemplação</dt>
           <dd className="mt-1.5 text-lg text-fog">
-            <ValorBorrado>{brlCentavos(r.parcelaCheia)}</ValorBorrado>
+            {brlCentavos(r.parcelaCheia)}
           </dd>
         </div>
         <div>
           <dt className="text-sm text-silver">Juros</dt>
           <dd className="mt-1.5 text-lg text-fog">
-            <ValorBorrado>R$ 0</ValorBorrado>
+            R$ 0
           </dd>
         </div>
       </dl>

@@ -4,7 +4,6 @@ import { brl, brlCentavos, simular } from "@/lib/simulacao";
 import { Container } from "@/components/ui/Container";
 import { PillButton } from "@/components/ui/PillButton";
 import { CartaCredito } from "@/components/consorcio/CartaCredito";
-import { ValorBorrado } from "@/components/consorcio/ValorBorrado";
 
 /*
   Convite para a NBM Consórcios — faixa navy entre Serviços e FAQ.
@@ -50,12 +49,8 @@ export function ConsorcioConvite() {
           <p className="hairline-t mt-10 max-w-md pt-6 text-sm text-silver">
             Crédito de <span className="font-semibold text-fog">{brl(credito)}</span>{" "}
             a partir de{" "}
-            {/* parcela borrada como nas cartas: o valor certo é o do
-                simulador (stat-gold dentro do borrão — ver ValorBorrado) */}
             <span className="font-serif text-2xl">
-              <ValorBorrado>
-                <span className="stat-gold">{brlCentavos(parcelaReduzida)}</span>
-              </ValorBorrado>
+              <span className="stat-gold">{brlCentavos(parcelaReduzida)}</span>
             </span>
             <span className="text-ash">/mês</span>
           </p>

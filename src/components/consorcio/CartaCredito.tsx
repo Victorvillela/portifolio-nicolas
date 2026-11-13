@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { plano } from "@/data/consorcio";
 import { brl, brlCentavos, simular } from "@/lib/simulacao";
-import { ValorBorrado } from "./ValorBorrado";
 
 /*
   "Carta de crédito" da NBM Consórcios — o objeto visual da marca. Usada
@@ -59,13 +58,13 @@ export function CartaCredito({ className = "" }: { className?: string }) {
           <div>
             <dt className="eyebrow">Parcela reduzida</dt>
             <dd className="mt-1.5 text-lg text-fog">
-              <ValorBorrado>{brlCentavos(parcelaReduzida)}</ValorBorrado>
+              {brlCentavos(parcelaReduzida)}
             </dd>
           </div>
           <div>
             <dt className="eyebrow">Juros</dt>
             <dd className="mt-1.5 text-lg text-fog">
-              <ValorBorrado>R$ 0</ValorBorrado>
+              R$ 0
             </dd>
           </div>
           <div>
