@@ -4,6 +4,7 @@ import { brl, brlCentavos, simular } from "@/lib/simulacao";
 import { Container } from "@/components/ui/Container";
 import { PillButton } from "@/components/ui/PillButton";
 import { CartaCredito } from "@/components/consorcio/CartaCredito";
+import { ValorBorrado } from "@/components/consorcio/ValorBorrado";
 
 /*
   Convite para a NBM Consórcios — faixa navy entre Serviços e FAQ.
@@ -49,7 +50,13 @@ export function ConsorcioConvite() {
           <p className="hairline-t mt-10 max-w-md pt-6 text-sm text-silver">
             Crédito de <span className="font-semibold text-fog">{brl(credito)}</span>{" "}
             a partir de{" "}
-            <span className="stat-gold font-serif text-2xl">{brlCentavos(parcelaReduzida)}</span>
+            {/* parcela borrada como nas cartas: o valor certo é o do
+                simulador (stat-gold dentro do borrão — ver ValorBorrado) */}
+            <span className="font-serif text-2xl">
+              <ValorBorrado>
+                <span className="stat-gold">{brlCentavos(parcelaReduzida)}</span>
+              </ValorBorrado>
+            </span>
             <span className="text-ash">/mês</span>
           </p>
 
@@ -68,7 +75,26 @@ export function ConsorcioConvite() {
           </div>
         </div>
 
-        <CartaCredito className="lg:mr-0" />
+        {/* A carta inteira é link para /consorcios (nova aba, como os
+            botões). No mobile ela "ameaça passar" para a próxima carta do
+            baralho (.carta-teaser, globals.css) — convite ao toque. */}
+        <div className="lg:mr-0">
+          <a
+            href={site.consorcioPage}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Conhecer a NBM Consórcios (abre em nova aba)"
+            className="carta-teaser block rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-blue-light"
+          >
+            <CartaCredito />
+          </a>
+          <p
+            aria-hidden
+            className="mt-10 text-center text-[0.62rem] font-medium uppercase tracking-[0.26em] text-ash lg:hidden"
+          >
+            Toque na carta para conhecer <span className="carta-teaser__seta inline-block">→</span>
+          </p>
+        </div>
       </Container>
     </section>
   );

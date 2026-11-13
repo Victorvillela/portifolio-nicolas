@@ -77,6 +77,9 @@ export const plano = {
   valorPadrao: 200_000,
   // atalhos = valores das simulações de referência
   atalhos: [80_000, 100_000, 200_000, 450_000],
+  // baralho animado do hero de /consorcios (CartasSimulacao): só
+  // créditos das simulações reais, na ordem em que aparecem
+  cartasHero: [200_000, 450_000, 80_000],
 };
 
 export const fonteComparativo =

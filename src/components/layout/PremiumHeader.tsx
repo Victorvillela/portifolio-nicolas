@@ -53,9 +53,11 @@ export function PremiumHeader() {
   const nav = onConsorcio ? consorcioNav : headerNav;
   // no consórcio as âncoras são da própria página: sem prefixo "/"
   const navHref = (href: string) => (onConsorcio ? href : anchorHref(href));
+  // a home não tem CTA no header ("Invista conosco" removido a pedido
+  // do cliente, 2026-11-12) — o hero já traz "Agendar uma conversa"
   const cta = onConsorcio
     ? { href: site.consorcioWhatsapp, label: ctaLabels.consorcioHeader }
-    : { href: site.scheduleUrl, label: ctaLabels.header };
+    : null;
 
   useEffect(() => {
     const el = headerRef.current;
@@ -315,19 +317,19 @@ export function PremiumHeader() {
               ancorado pelo justify-end; o CTA fica logo à esquerda dele,
               entre a logo e o menu.
 
-              Abaixo de 1024px o CTA aparece numa versão compacta (fonte,
-              padding e tracking menores): no espaço que sobra entre o
-              emblema e o hambúrguer, o botão de desktop não caberia sem
-              disputar os dois. Enquanto o drawer está aberto ele some —
-              o painel já traz o mesmo CTA no fim da lista, e dois pills
-              verdes ao mesmo tempo na tela não fazem sentido. */}
+              Abaixo de 1024px o CTA sai da barra (pedido do cliente,
+              2026-11-12): no mobile a barra fica só logo + hambúrguer, e o
+              mesmo CTA continua no fim da lista do drawer e nos botões do
+              hero. */}
           <div className="relative z-10 flex flex-1 items-center justify-end gap-4 max-lg:gap-3">
-            <PillButton
-              href={cta.href}
-              className="whitespace-nowrap px-5 py-2.5 max-lg:px-3 max-lg:py-1.5 max-lg:text-[0.6rem] max-lg:tracking-[0.14em] max-lg:group-data-[menu=open]/header:hidden lg:inline-flex"
-            >
-              {cta.label}
-            </PillButton>
+            {cta && (
+              <PillButton
+                href={cta.href}
+                className="whitespace-nowrap px-5 py-2.5 max-lg:hidden"
+              >
+                {cta.label}
+              </PillButton>
+            )}
 
             <button
               type="button"
@@ -394,13 +396,15 @@ export function PremiumHeader() {
             {item.label}
           </Link>
         ))}
-        <PillButton
-          href={cta.href}
-          className="mt-4"
-          onClick={() => setMenuOpen(false)}
-        >
-          {cta.label}
-        </PillButton>
+        {cta && (
+          <PillButton
+            href={cta.href}
+            className="mt-4"
+            onClick={() => setMenuOpen(false)}
+          >
+            {cta.label}
+          </PillButton>
+        )}
         {onConsorcio ? (
           <PillButton
             href="/"
@@ -415,7 +419,7 @@ export function PremiumHeader() {
             href={site.consorcioPage}
             newTab
             variant="outline"
-            className="-mt-4"
+            className="mt-4"
             onClick={() => setMenuOpen(false)}
           >
             {ctaLabels.consorcio}

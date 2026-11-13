@@ -422,6 +422,127 @@ header[data-menu="open"] {
   }
 }
 
+/*
+  Teaser de baralho da carta de crédito (convite da home).
+  Mobile: a cada ciclo a carta da frente desliza para a esquerda como se
+  fosse passar, a de trás avança como "a próxima" e as duas voltam —
+  convite ao toque (o wrapper é link para /consorcios).
+  Desktop: o mesmo gesto, mais curto, só no hover/foco.
+  A carta de trás já tem translate/rotate do Tailwind (propriedades
+  individuais); o transform daqui se soma a eles.
+*/
+@keyframes carta-tease-front {
+  0%,
+  58%,
+  100% {
+    transform: none;
+  }
+  72%,
+  80% {
+    transform: translateX(-16%) rotate(-6deg);
+  }
+}
+
+@keyframes carta-tease-back {
+  0%,
+  58%,
+  100% {
+    transform: none;
+  }
+  72%,
+  80% {
+    transform: translate(-1.5rem, -1rem) rotate(-3deg) scale(1.02);
+  }
+}
+
+@keyframes carta-tease-seta {
+  0%,
+  58%,
+  100% {
+    transform: none;
+  }
+  72%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+.carta-teaser [data-carta] {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
+  .carta-teaser [data-carta="front"] {
+    animation: carta-tease-front 4.5s cubic-bezier(0.16, 1, 0.3, 1) 1.5s infinite;
+  }
+  .carta-teaser [data-carta="back"] {
+    animation: carta-tease-back 4.5s cubic-bezier(0.16, 1, 0.3, 1) 1.5s infinite;
+  }
+  .carta-teaser__seta {
+    animation: carta-tease-seta 4.5s cubic-bezier(0.16, 1, 0.3, 1) 1.5s infinite;
+  }
+  /* toque: a carta "afunda" um pouco antes de abrir o consórcio */
+  .carta-teaser:active [data-carta="front"] {
+    animation: none;
+    transform: scale(0.97);
+  }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .carta-teaser:hover [data-carta="front"],
+  .carta-teaser:focus-visible [data-carta="front"] {
+    transform: translateX(-6%) rotate(-3deg);
+  }
+  .carta-teaser:hover [data-carta="back"],
+  .carta-teaser:focus-visible [data-carta="back"] {
+    transform: translate(-0.75rem, -0.5rem) rotate(-1.5deg);
+  }
+}
+
+/*
+  Baralho do simulador (SimuladorSection): a carta anterior sai pela
+  direita (longe do painel de entradas) e a nova sobe da pilha — parte da
+  posição da 1ª carta de trás, escurecida, até a frente.
+  Com prefers-reduced-motion a regra global zera a duração: a troca
+  vira instantânea e o animationend ainda dispara (limpa a carta velha).
+*/
+/* opaca durante o deslize; só some no fim — fade desde o início
+   deixava o texto da carta velha "fantasma" sobre a nova */
+@keyframes carta-sai {
+  from {
+    transform: none;
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  /* para a DIREITA: pela esquerda a carta passava por cima do painel
+     de entradas (valor, slider, atalhos) que o visitante está usando */
+  to {
+    transform: translateX(115%) rotate(10deg);
+    opacity: 0;
+  }
+}
+
+@keyframes carta-entra {
+  from {
+    transform: translate(0.55rem, 0.8rem) rotate(1.5deg);
+    filter: brightness(0.65);
+  }
+  to {
+    transform: none;
+    filter: none;
+  }
+}
+
+.carta-sai {
+  animation: carta-sai 0.85s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.carta-entra {
+  animation: carta-entra 0.85s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
 /* Pulso dos pontos da seção de tecnologia */
 @keyframes tech-pulse {
   0%,

@@ -1,6 +1,6 @@
 import { site } from "@/data/site";
 import { PillButton } from "@/components/ui/PillButton";
-import { CartaCredito } from "./CartaCredito";
+import { CartasSimulacao } from "./CartasSimulacao";
 
 const selos = ["Sem juros", "Sem entrada obrigatória", "Regulado pelo Banco Central"];
 
@@ -72,8 +72,9 @@ export function ConsorcioHero() {
           </ul>
         </div>
 
-        {/* CARTA DE CRÉDITO — mesmo cartão do convite na home */}
-        <CartaCredito className="lg:mx-0 lg:justify-self-end" />
+        {/* BARALHO DE SIMULAÇÕES — cartas no formato do simulador, com o
+            mesmo gesto do teaser da carta na home */}
+        <CartasSimulacao className="lg:mx-0 lg:justify-self-end" />
       </div>
     </section>
   );

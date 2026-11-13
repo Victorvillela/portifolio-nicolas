@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { plano } from "@/data/consorcio";
 import { brl, brlCentavos, simular } from "@/lib/simulacao";
+import { ValorBorrado } from "./ValorBorrado";
 
 /*
   "Carta de crédito" da NBM Consórcios — o objeto visual da marca. Usada
@@ -14,11 +15,16 @@ export function CartaCredito({ className = "" }: { className?: string }) {
 
   return (
     <div className={`relative mx-auto w-full max-w-md ${className}`}>
+      {/* data-carta: ganchos do "teaser de baralho" da home
+          (.carta-teaser em globals.css); no hero de /consorcios não há
+          o wrapper, então nada anima */}
       <div
         aria-hidden
+        data-carta="back"
         className="hairline absolute inset-0 translate-x-5 translate-y-6 rotate-[4deg] rounded-3xl bg-navy-elevated/40"
       />
       <figure
+        data-carta="front"
         aria-label="Exemplo de carta de crédito de consórcio de imóvel"
         className="hairline relative rounded-3xl bg-linear-to-br from-navy-elevated to-navy-secondary p-7 shadow-[0_30px_80px_rgba(0,0,0,0.45)] md:p-9"
       >
@@ -52,11 +58,15 @@ export function CartaCredito({ className = "" }: { className?: string }) {
           </div>
           <div>
             <dt className="eyebrow">Parcela reduzida</dt>
-            <dd className="mt-1.5 text-lg text-fog">{brlCentavos(parcelaReduzida)}</dd>
+            <dd className="mt-1.5 text-lg text-fog">
+              <ValorBorrado>{brlCentavos(parcelaReduzida)}</ValorBorrado>
+            </dd>
           </div>
           <div>
             <dt className="eyebrow">Juros</dt>
-            <dd className="mt-1.5 text-lg text-fog">R$ 0</dd>
+            <dd className="mt-1.5 text-lg text-fog">
+              <ValorBorrado>R$ 0</ValorBorrado>
+            </dd>
           </div>
           <div>
             <dt className="eyebrow">Contemplação</dt>
@@ -74,7 +84,9 @@ export function CartaCredito({ className = "" }: { className?: string }) {
           ))}
         </div>
         <figcaption className="mt-3 text-[0.65rem] text-ash">
-          Exemplo ilustrativo. Valores reais dependem do grupo e das condições vigentes.
+          Exemplo ilustrativo. Valores reais dependem do grupo e das
+          condições vigentes. Veja o valor da parcela que cabe no seu
+          orçamento no simulador.
         </figcaption>
       </figure>
     </div>

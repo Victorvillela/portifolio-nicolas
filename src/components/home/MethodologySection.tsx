@@ -87,7 +87,9 @@ export function MethodologySection() {
             aria-hidden
             className="relative hidden items-center justify-center md:flex"
           >
-            <div className="relative h-72 w-72">
+            {/* menor no tablet: os anéis externos escalam acima de 1× e
+                vazavam da coluna em 768px, abrindo rolagem lateral */}
+            <div className="relative h-56 w-56 lg:h-72 lg:w-72">
               {PILLARS.map((pillar, i) => (
                 <div
                   key={pillar.number}
